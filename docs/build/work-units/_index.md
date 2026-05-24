@@ -7,7 +7,7 @@ A **work unit** is one concrete thing the project will build. Each one has a tit
 | WU | Title | Status | Notes |
 | --- | --- | --- | --- |
 | [WU-001](done/001-project-scaffolding.md) | Project scaffolding | ✅ shipped | — |
-| [WU-002](002-email-provider-interface-ses-adapter.md) | `EmailProvider` interface + SES adapter | 🔵 proposed | Depends on WU-001 |
+| [WU-002](done/002-email-provider-interface-ses-adapter.md) | `EmailProvider` interface + SES adapter | ✅ shipped | — |
 | [WU-003](003-router.md) | Router — category → provider from env config | 🔵 proposed | Depends on WU-002 |
 | [WU-004](004-template-renderer.md) | Template Renderer — React Email → HTML | 🔵 proposed | Depends on WU-001 |
 | [WU-005](005-mail-sender.md) | Mail Sender — core sync delivery | 🔵 proposed | Depends on WU-002, WU-003, WU-004, WU-006 |

@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-24 (WU-001 shipped — scaffolding complete)
+**Last updated:** 2026-05-24 (WU-002 shipped — EmailProvider + SES adapter)
 
 ## Planning progress
 
@@ -20,7 +20,7 @@ When you run `/start-of-session` on this fresh project, the AI will see this tra
 
 ## What is currently in flight
 
-WU-001 (project scaffolding) ✅ shipped. Next: WU-002 (EmailProvider + SES adapter), WU-004 (Template Renderer), WU-006 (Send Log backend), and WU-010 (Config Health UI) can all start in parallel. Run `/build-wu WU-002` to continue Phase 1.
+WU-001 and WU-002 ✅ shipped. WU-003 (Router) is unblocked — it depends only on WU-002. WU-004 (Template Renderer), WU-006 (Send Log backend), and WU-010 (Config Health UI) remain available in parallel.
 
 ## Project description
 
@@ -28,11 +28,11 @@ A self-hosted email routing service that sits in front of cheap bulk providers (
 
 ## What just shipped
 
-**WU-001 — Project scaffolding** (2026-05-24). Next.js 15 + TypeScript strict + Drizzle ORM + Neon + Vitest + Tailwind v4 all wired. 12 env vars validated at startup. generate+migrate workflow (D009). 7 tests passing.
+**WU-002 — EmailProvider interface + SES adapter** (2026-05-24). `EmailProvider` interface, `ProviderError` class, `createSesAdapter()` factory. AWS SDK v3, List-Unsubscribe MIME path, no-throw `send()` contract. 43 tests passing.
 
 ## What is next
 
-Run `/build-wu WU-002` to start the EmailProvider interface + SES adapter. WU-004, WU-006, and WU-010 can start in parallel with WU-002 — all four have no remaining dependencies.
+Run `/build-wu WU-003` (Router — category → provider). Or run WU-004, WU-006, WU-010 in parallel — all are unblocked.
 
 ## Open questions blocking progress
 
@@ -63,7 +63,7 @@ None blocking. Q001 resolved → D002.
 | Work Unit | Status | Notes |
 | --- | --- | --- |
 | [WU-001 — Project scaffolding](docs/build/work-units/done/001-project-scaffolding.md) | ✅ shipped | — |
-| [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/002-email-provider-interface-ses-adapter.md) | 🟡 in flight | Next to build |
+| [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/done/002-email-provider-interface-ses-adapter.md) | ✅ shipped | — |
 | [WU-003 — Router](docs/build/work-units/003-router.md) | 🔵 proposed | After WU-002 |
 | [WU-004 — Template Renderer](docs/build/work-units/004-template-renderer.md) | 🔵 proposed | After WU-001 |
 | [WU-005 — Mail Sender](docs/build/work-units/005-mail-sender.md) | 🔵 proposed | After WU-002, 003, 004 |
