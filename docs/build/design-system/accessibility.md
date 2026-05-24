@@ -1,77 +1,73 @@
-# Accessibility commitments
-
-> *Filled in during the UI/UX + Design System phase of planning. These are the project-wide promises every surface honours.*
+# Accessibility Commitments
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
 
-## Standards we meet
+These are project-wide promises. Every surface in `ui-ux/` honours them. They are not aspirational — they are gates. A work unit that ships a surface without meeting these commitments is not done.
 
-[Pick the standard the project commits to. WCAG 2.1 AA is the typical floor; AAA where appropriate.]
+---
 
-- **WCAG 2.1 Level AA** — minimum across all surfaces
-- **WCAG 2.1 Level AAA** — for [specific contexts; e.g. "reading-focused screens"]
+## Standard
 
-## Specific commitments
+**WCAG 2.1 Level AA** across all surfaces.
 
-Each of these is a project-wide promise. They are not aspirational; every surface in `ui-ux/` must honour them.
+---
 
-### Colour and contrast
+## Colour and contrast
 
-- All body text meets AA contrast (4.5:1) against its background
-- All text 18px+ and bold 14px+ meets AA Large (3:1)
-- Critical UI (focus rings, error states) is never communicated by colour alone
+- All body text (`text.body`, `text.body.sm`) meets 4.5:1 contrast against its background — verified in `tokens-colour.md`
+- All large text (18px+ regular, 14px+ bold) meets 3:1 contrast
+- All UI components (inputs, buttons, badges, focus rings) meet 3:1 contrast against adjacent colours
+- Status is never communicated by colour alone — always colour + text or colour + icon
 
-### Keyboard
+---
 
-- Every interactive element is reachable via keyboard alone
-- Focus order matches visual order
-- Focus rings are visible, distinct, and never suppressed
+## Keyboard navigation
+
+- Every interactive element is reachable via Tab
+- Focus order matches visual reading order
+- Focus rings are always visible: 2px solid `colour.brand.primary`, 2px offset, `radius.md`
 - No keyboard traps anywhere
+- Expandable table rows: Enter to expand/collapse, Escape to collapse
 
-### Screen reader
+---
 
-- Every interactive element has an accessible name (label, aria-label, or visible text)
-- Landmarks are used correctly (header, nav, main, aside, footer)
-- Heading hierarchy is correct (h1 → h2 → h3, no skipping)
-- Form labels are always present and programmatically associated
+## Screen reader
 
-### Motion
+- Every interactive element has an accessible name (visible label, or `aria-label` for icon-only controls)
+- Page landmarks used correctly: `<header>`, `<main>`, `<nav>` (if navigation added later)
+- Heading hierarchy is correct — one `<h1>` per page, `<h2>` for sections
+- All form fields have visible, programmatically associated labels (`<label for>`)
+- Dynamic content (result panel, filter results) uses `aria-live="polite"`
+- Loading states: `aria-busy="true"` on the relevant container
 
-- All non-essential motion respects `prefers-reduced-motion`
-- No auto-playing video or audio
-- No flashing content above 3 Hz
+---
 
-### Touch and pointer
+## Motion
 
-- Touch targets are at least 44 × 44 px
-- Multiple input methods supported (touch, mouse, keyboard, switch)
-- No actions require hover (which doesn't exist on touch)
+- All transitions respect `prefers-reduced-motion: reduce` — implemented via Tailwind `motion-safe:` / `motion-reduce:` variants
+- No auto-playing animation; no flashing content above 3 Hz
 
-### Forms
+---
 
-- Errors are described in text, not just colour
-- Errors appear inline next to the affected field
-- Submit buttons remain enabled until submitted; loading state replaces "submit" text
-- Required fields are marked in text ("required"), not just by an asterisk
+## Forms
 
-### Language and reading
+- Errors described in text, not just colour
+- Error messages appear inline next to the affected field, linked via `aria-describedby`
+- Required fields marked in text (not asterisk alone)
+- Submit button shows loading state after click; `aria-busy="true"` during async send
 
-- Page language is declared (`lang="en"` etc.)
-- Reading level appropriate for the persona (most adult-facing surfaces target ~Grade 8-10)
-- Long content has summaries; short content avoids unnecessary text
+---
 
-## How we test
+## Dark / light mode
 
-- **Automated**: axe-core (or equivalent) on every page in CI
-- **Keyboard-only walkthrough** as part of pre-merge for any new surface
-- **Screen reader spot-check** (VoiceOver or NVDA) on changes to forms and primary flows
-- **Real user testing** with one or more users who rely on assistive technology, before each major release
+- All colour tokens are defined for both modes (see `tokens-colour.md`)
+- Mode follows system preference (`prefers-color-scheme`) by default — no manual toggle required in v1
 
-## When to file an accessibility-related decision
+---
 
-- A trade-off between accessibility and another goal arises (rare; document the resolution)
-- A new accessibility commitment is added or an existing one is loosened
-- A pattern is adopted that requires special accessibility care (drag-and-drop, complex grids, charts)
+## Testing protocol
 
-Accessibility is not a phase; it's a baseline. Every work unit that ships a surface checks against these commitments before completing.
+- `axe-core` automated scan on every page — zero violations before a WU can ship a surface
+- Keyboard-only walkthrough of every new surface before merge
+- Screen reader spot-check (VoiceOver/macOS) on any new form or dynamic UI

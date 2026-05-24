@@ -1,53 +1,46 @@
-# Voice and tone
-
-> *Filled in during the UI/UX + Design System phase of planning. The AI walks you through it — start by describing how {{PROJECT_NAME}} should "sound" to the people using it, then derive principles, then build out specific microcopy examples.*
+# Voice and Tone
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
 
-## How {{PROJECT_NAME}} sounds
+## How oss-mailer sounds
 
-[One paragraph describing the personality. Honest, warm, direct, calm, professional, playful, etc. Pick three or four words; explain in plain language. *"Calm, direct, never patronising. Speaks to teachers the way a trusted colleague speaks to another teacher."*]
+Direct, honest, and technical — no fluff. oss-mailer speaks to developers the way a good tool speaks: it tells you what happened, why it happened, and what to do next. It doesn't apologise for working correctly, doesn't over-explain things a developer already knows, and doesn't pad error messages with reassurances. When something breaks, it says so plainly and tells you how to fix it.
 
 ## Five rules of voice
 
-[List the load-bearing principles for any writing in the product. Examples:]
-
-1. **Plain language, no jargon.** If a word would lose a domain expert, use a different word.
-2. **Acknowledge the person.** Address them in the second person ("you"), not the third ("the user").
-3. **Be specific.** *"You'll get an email tomorrow morning"* beats *"Notification will be sent."*
-4. **Own mistakes.** When the system breaks, say what happened, what we're doing about it, and what they can do next. Never blame the user.
-5. **Never patronise.** Domain experts can read; don't explain things they obviously know.
+1. **Say what happened.** "Send failed — SES credentials invalid" beats "There was a problem with your request."
+2. **Use second person.** "Your API key" not "the API key" or "the user's API key."
+3. **No filler words.** Cut "please", "simply", "just", "easily". If it's simple, the UI shows it; saying "just click here" is condescending.
+4. **Technical terms are fine.** This is a developer tool. "Provider", "queue", "message ID", "category" are all fine. Don't soften them into consumer language.
+5. **Own failures, not users.** If a send fails due to misconfiguration, don't blame the user — tell them what's wrong and how to fix it.
 
 ## Tone by context
 
 | Context | Tone | Example |
 | --- | --- | --- |
-| Welcoming a new user | Warm, calm | *"Welcome — let's get you set up. This takes about ten minutes."* |
-| Confirming success | Direct, brief | *"Saved. {{PROJECT_NAME}} will email you tomorrow at 7am."* |
-| Asking for input | Specific, calm | *"What does tomorrow's class look like? Tell us what you'd usually note down."* |
-| Reporting an error | Honest, helpful | *"The morning briefing didn't reach you today. We've already fixed it. You can run it manually with this button, or wait for tomorrow."* |
-| Asking the user to slow down | Gentle | *"This will undo {{PROJECT_NAME}}'s overnight work. Are you sure you want to start over?"* |
-| Empty states | Encouraging | *"No students yet. Add one with the button above — or import a class from yesterday."* |
+| Success | Brief, factual | "Sent. Message ID: abc123" |
+| Failure | Direct, actionable | "Send failed — SES returned: credentials invalid. Check `SES_ACCESS_KEY_ID` and `SES_SECRET_ACCESS_KEY`." |
+| Empty state | Matter-of-fact, helpful | "No sends yet. Use the Test Send page to fire your first email." |
+| Config missing | Clear, specific | "`SES_REGION` is not set. Add it to your environment variables and redeploy." |
+| Loading | Minimal | "Loading…" — no spinner text essays |
+| Confirmation | Direct | "Test email sent to you@example.com via SES." |
 
 ## Words we use
 
 | Use | Not |
 | --- | --- |
-| sign in | log in |
-| email | electronic mail |
-| {{PROJECT_NAME}} | the system, the app, the platform |
-| school server | backend |
-| your students | "the cohort", "the user base" |
-
-[Add to this list as patterns emerge. Voice and tone live by examples; abstractions don't help.]
+| send | dispatch, transmit, deliver (as a verb) |
+| failed | errored, encountered an issue, had a problem |
+| provider | mail service, vendor |
+| configure | set up, onboard |
+| env var / environment variable | secret, config key (inconsistently) |
+| message ID | delivery receipt, send token |
 
 ## Words we never use
 
-[Project-specific banned words. Often: corporate jargon, false urgency, dark patterns.]
-
-- "Click here"
-- "Unfortunately"
-- "Oops!"
-- "We've sent you an email — it might be in your spam folder" (just acknowledge it might not have arrived; don't blame their inbox)
-- [project-specific additions]
+- "Oops!" — this is a developer tool, not a children's app
+- "Unfortunately" — just say what happened
+- "Please try again" alone — always say what to try
+- "Our team is looking into it" — this is self-hosted; there is no team
+- "Successfully" redundantly — "Sent" is enough; "Successfully sent" adds nothing

@@ -1,42 +1,37 @@
-# Motion tokens
-
-> *Filled in during the UI/UX + Design System phase of planning.*
+# Motion Tokens
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
 
-## Duration scale
+Functional motion only — no decorative animation. Fast and subtle. Every transition communicates a state change; nothing moves for aesthetics alone.
 
-| Token | Value | Typical use |
+---
+
+## Durations
+
+| Token | Value | Usage |
 | --- | --- | --- |
-| `motion.duration.instant` | 0ms | Hovering between focused/unfocused |
-| `motion.duration.quick` | 150ms | Hover states, focus rings, small UI feedback |
-| `motion.duration.medium` | 250ms | Modal open/close, page transitions, accordion |
-| `motion.duration.slow` | 400ms | Larger view transitions, complex reveals |
-| `motion.duration.long` | 700ms | Onboarding moments, celebratory feedback |
+| `motion.duration.instant` | `0ms` | Focus rings, no-transition state changes |
+| `motion.duration.fast` | `100ms` | Hover states, button press, badge colour change |
+| `motion.duration.base` | `200ms` | Input focus, dropdown open, modal fade |
+| `motion.duration.slow` | `300ms` | Panel slide-in, page transitions |
+
+---
 
 ## Easing
 
-| Token | Curve | Used for |
+| Token | Value | Usage |
 | --- | --- | --- |
-| `motion.ease.standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | Default; balanced acceleration + deceleration |
-| `motion.ease.enter` | `cubic-bezier(0, 0, 0.2, 1)` | Things appearing on screen |
-| `motion.ease.exit` | `cubic-bezier(0.4, 0, 1, 1)` | Things leaving the screen |
-| `motion.ease.emphasis` | `cubic-bezier(0.2, 0.7, 0, 1)` | Big moments that should feel deliberate |
+| `motion.ease.standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | Default — balanced in/out |
+| `motion.ease.out` | `cubic-bezier(0, 0, 0.2, 1)` | Elements entering the screen |
+| `motion.ease.in` | `cubic-bezier(0.4, 0, 1, 1)` | Elements leaving the screen |
 
-## Principles
+---
 
-- **Motion communicates state change**, not decoration. Every animation should answer "what just changed?"
-- **Faster is friendlier for repetitive interactions.** A modal opening 60 times a day at 600ms is annoying; the same modal at 250ms feels right.
-- **Slower is friendlier for rare, big moments.** A celebration animation can take 700ms; nobody minds.
-- **Respect `prefers-reduced-motion`.** All non-essential motion should be substantially reduced or removed when the user has set this preference.
+## Reduced motion
 
-## Accessibility
-
-When `prefers-reduced-motion: reduce` is set:
-
-- Replace transition-based motion (slide, scale, fade) with instant state changes
-- Keep durations for unavoidable transitions under 150ms
-- No parallax, no auto-playing media
-
-The full accessibility commitment lives in `accessibility.md`.
+All transitions must respect `prefers-reduced-motion: reduce`:
+- All `transition-duration` values collapse to `0ms`
+- No transforms, slides, or fades — state changes are instant
+- Loading spinners replaced with static "Loading…" text
+- Implemented via Tailwind `motion-safe:` / `motion-reduce:` variants throughout

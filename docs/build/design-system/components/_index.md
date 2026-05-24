@@ -6,7 +6,14 @@ The reusable pieces every UI/UX surface uses. Each component has its own file do
 
 | Component | Status |
 | --- | --- |
-| _none yet — components are added as work units need them; the first batch is sketched during Phase C of planning_ | |
+| [Button](button.md) | 🔵 proposed |
+| [Input](input.md) | 🔵 proposed |
+| [Select](select.md) | 🔵 proposed |
+| [Badge](badge.md) | 🔵 proposed |
+| [Data Table](data-table.md) | 🔵 proposed |
+| [Page Header](page-header.md) | 🔵 proposed |
+| [Empty State](empty-state.md) | 🔵 proposed |
+| [Result Panel](result-panel.md) | 🔵 proposed |
 
 ## What goes in a component file
 

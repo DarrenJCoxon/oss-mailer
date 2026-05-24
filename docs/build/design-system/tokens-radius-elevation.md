@@ -1,34 +1,30 @@
-# Radius and elevation tokens
-
-> *Filled in during the UI/UX + Design System phase of planning.*
+# Radius & Elevation Tokens
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
+
+Slightly rounded — not sharp, not pill-shaped. Clean developer aesthetic. Elevation is subtle; this is a data tool, not a layered consumer UI. Dark mode uses border-based separation rather than shadows.
+
+---
 
 ## Border radius
 
-| Token | Value | Typical use |
+| Token | Value | Usage |
 | --- | --- | --- |
-| `radius.none` | 0 | Sharp corners (full-width banners, separators) |
-| `radius.small` | 4px | Small UI elements (tags, badges, inputs) |
-| `radius.medium` | 8px | Cards, buttons, modals |
-| `radius.large` | 16px | Feature cards, prominent containers |
-| `radius.full` | 9999px | Pills, avatars, circular buttons |
+| `radius.sm` | `4px` | Badges, status indicators |
+| `radius.md` | `6px` | Buttons, inputs, form fields |
+| `radius.lg` | `8px` | Cards, panels |
+| `radius.xl` | `12px` | Modals, large containers |
+| `radius.full` | `9999px` | Pills (reserved for future use) |
 
-## Elevation / shadow
+---
 
-Shadows are used to indicate hierarchy and interactivity — what's pressable, what's floating, what's pinned.
+## Elevation (shadows)
 
-| Token | Value | Used for |
+Used sparingly. Light mode only — dark mode uses `colour.neutral.border` for separation.
+
+| Token | Value | Usage |
 | --- | --- | --- |
-| `elevation.none` | none | Default; in-flow elements |
-| `elevation.low` | `0 1px 2px rgba(0,0,0,0.05)` | Cards, raised surfaces |
-| `elevation.medium` | `0 4px 8px rgba(0,0,0,0.08)` | Hover states, popovers |
-| `elevation.high` | `0 8px 24px rgba(0,0,0,0.12)` | Modals, dropdowns |
-| `elevation.highest` | `0 16px 48px rgba(0,0,0,0.16)` | Notifications, toasts (briefly) |
-
-## Principles
-
-- **Pick a small set and use it consistently.** Two or three elevation levels usually beats five. Hierarchy is communicated by *which* level something uses, not by having many.
-- **Shadows belong on light surfaces.** On dark themes, the analog is a subtle border or a brighter background rather than a shadow.
-- **Radius is part of brand voice.** Sharp corners feel different from rounded ones. Pick once; apply consistently. A button that's `radius.medium` and a card that's `radius.large` is fine; a button that's `radius.medium` in one place and `radius.small` in another is design drift.
+| `shadow.none` | `none` | Default surface, table rows |
+| `shadow.sm` | `0 1px 2px 0 rgba(0,0,0,0.05)` | Subtle card lift (light mode) |
+| `shadow.md` | `0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.10)` | Modal, dropdown (light mode) |

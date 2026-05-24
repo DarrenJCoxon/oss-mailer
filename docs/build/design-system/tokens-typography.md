@@ -1,46 +1,65 @@
-# Typography tokens
-
-> *Filled in during the UI/UX + Design System phase of planning.*
+# Typography Tokens
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
+
+Desktop-first, data-dense. Two families: **Inter** for all UI text, **JetBrains Mono** for timestamps, IDs, email addresses, and any data that benefits from monospacing.
+
+---
 
 ## Font families
 
-| Token | Value | Used for |
+| Token | Value | Usage |
 | --- | --- | --- |
-| `font.sans` | `[font name]`, system-ui, sans-serif | Body text, UI |
-| `font.serif` | `[font name]`, serif | Long-form reading (if applicable) |
-| `font.mono` | ui-monospace, monospace | Code, numerical alignment |
+| `font.family.sans` | `'Inter', system-ui, -apple-system, sans-serif` | All UI text |
+| `font.family.mono` | `'JetBrains Mono', 'Fira Code', ui-monospace, monospace` | Timestamps, message IDs, email addresses in tables |
 
-## Type scale
+Loaded via Google Fonts. Inter weights: 400, 500, 600. JetBrains Mono weight: 400 only.
 
-| Token | Size | Line height | Weight | Used for |
-| --- | --- | --- | --- | --- |
-| `text.display.large` | 56px | 1.1 | 700 | Hero headings |
-| `text.display.medium` | 40px | 1.15 | 700 | Section headings |
-| `text.title.large` | 28px | 1.2 | 600 | Page titles |
-| `text.title.medium` | 22px | 1.25 | 600 | Subheadings |
-| `text.body.large` | 18px | 1.5 | 400 | Lead paragraphs |
-| `text.body.medium` | 16px | 1.5 | 400 | Default body |
-| `text.body.small` | 14px | 1.5 | 400 | Captions, hint text |
-| `text.label.medium` | 14px | 1.3 | 500 | Form labels, button text |
-| `text.label.small` | 12px | 1.3 | 500 | Tags, badges |
+---
 
-> Adjust the scale as needed. A few principles: keep the scale modular (each step a constant ratio from the next, e.g. 1.25× or 1.333×); cap the largest size at what's legible on the smallest target screen; line height tightens as text gets bigger.
+## Size scale
 
-## Weight scale
+| Token | rem | px | Usage |
+| --- | --- | --- | --- |
+| `text.size.xs` | `0.75rem` | `12px` | Badge text, table metadata |
+| `text.size.sm` | `0.875rem` | `14px` | Table body, form labels, secondary UI |
+| `text.size.base` | `1rem` | `16px` | Body copy, form field values |
+| `text.size.lg` | `1.125rem` | `18px` | Section headings |
+| `text.size.xl` | `1.25rem` | `20px` | Page sub-headings |
+| `text.size.2xl` | `1.5rem` | `24px` | Page headings (`<h1>`) |
+| `text.size.3xl` | `1.875rem` | `30px` | Display headings (README / marketing only) |
 
-| Token | Numeric | Used for |
+---
+
+## Weight variants
+
+| Token | Value | Usage |
 | --- | --- | --- |
-| `weight.regular` | 400 | Body |
-| `weight.medium` | 500 | Labels, emphasis |
-| `weight.semibold` | 600 | Titles |
-| `weight.bold` | 700 | Display, strong emphasis |
+| `font.weight.normal` | `400` | Body text, table cells, mono data |
+| `font.weight.medium` | `500` | Labels, nav items, button text |
+| `font.weight.semibold` | `600` | Headings, badge text, column headers |
 
-## Notes on readability
+---
 
-- **Body text is the default.** Optimise for `text.body.medium` first; everything else is built around it.
-- **Line length matters as much as type size.** Aim for 60-80 characters per line in body text.
-- **Headings should be readable at glance.** A large heading that takes effort to parse is worse than a smaller one.
-- **Test on the target devices.** Type that works on a designer's 27" monitor often fails on a 13" laptop or a phone in bright sunlight.
+## Line height
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| `line.height.tight` | `1.25` | Headings, badges, compact UI |
+| `line.height.snug` | `1.375` | Table rows, form labels |
+| `line.height.normal` | `1.5` | Body copy |
+
+---
+
+## Named text styles
+
+| Style | Family | Size token | Weight | Line height | Usage |
+| --- | --- | --- | --- | --- | --- |
+| `text.page.title` | sans | 2xl | semibold | tight | `<h1>` page headings |
+| `text.section.heading` | sans | lg | semibold | tight | `<h2>` section titles |
+| `text.label` | sans | sm | medium | snug | Form labels, table column headers |
+| `text.body` | sans | base | normal | normal | Body copy |
+| `text.body.sm` | sans | sm | normal | normal | Secondary body, descriptions |
+| `text.mono` | mono | sm | normal | snug | Timestamps, IDs, email addresses |
+| `text.badge` | sans | xs | semibold | tight | Badge / status text |

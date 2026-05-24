@@ -1,48 +1,44 @@
-# Spacing tokens
-
-> *Filled in during the UI/UX + Design System phase of planning.*
+# Spacing Tokens
 
 **Status:** 🔵 proposed
-**Last updated:** {{TODAY}}
+**Last updated:** 2026-05-24
+
+4px base unit. Desktop-first. Data-dense but not cramped — generous card/panel padding, tighter table cell spacing.
+
+---
 
 ## Spacing scale
 
-A small set of consistent values used everywhere. Build everything from these. Don't introduce custom one-off values.
-
-| Token | Value | Typical use |
+| Token | Value | Usage |
 | --- | --- | --- |
-| `space.0` | 0 | Reset |
-| `space.1` | 4px | Tight pairs (icon next to label) |
-| `space.2` | 8px | Internal padding of small elements |
-| `space.3` | 12px | Default gap between related items |
-| `space.4` | 16px | Comfortable padding inside cards/buttons |
-| `space.5` | 24px | Section padding |
-| `space.6` | 32px | Between sections |
-| `space.7` | 48px | Between major page regions |
-| `space.8` | 64px | Hero/breathing room |
-| `space.9` | 96px | Above-the-fold space |
+| `space.1` | `4px` | Icon-to-label gap, badge internal padding |
+| `space.2` | `8px` | Table cell padding (vertical), tight inline spacing |
+| `space.3` | `12px` | Form field internal padding, compact component gaps |
+| `space.4` | `16px` | Standard element spacing, table cell padding (horizontal) |
+| `space.5` | `20px` | Between form fields |
+| `space.6` | `24px` | Card internal padding, section gaps |
+| `space.8` | `32px` | Between major sections |
+| `space.10` | `40px` | Page section margins |
+| `space.12` | `48px` | Major section separation |
+| `space.16` | `64px` | Page top padding |
 
-## Layout grid
+---
 
-[The column system used for major page layouts. Most projects use a 12-column grid; some use 8 or 16. Pick one and stick to it.]
+## Layout
 
-- **Columns:** 12
-- **Gutter:** `space.4` (16px)
-- **Margin:** `space.5` (24px) on mobile, `space.7` (48px) on desktop
-- **Max content width:** 1200px (or as appropriate)
+| Token | Value | Usage |
+| --- | --- | --- |
+| `layout.max.width` | `1280px` | Maximum content width |
+| `layout.content.padding` | `32px` | Horizontal page padding (desktop) |
+| `layout.content.padding.mobile` | `16px` | Horizontal page padding (mobile) |
+| `layout.table.row.height` | `48px` | Minimum table row height for comfortable scanning |
+
+---
 
 ## Breakpoints
 
-| Token | Width | Targets |
+| Token | Width | Target |
 | --- | --- | --- |
-| `bp.mobile` | up to 639px | Phones |
-| `bp.tablet` | 640px – 1023px | Tablets, small laptops |
-| `bp.desktop` | 1024px+ | Larger laptops, monitors |
-
-Mobile-first by default — design for `bp.mobile`; add styling at larger breakpoints as needed.
-
-## Principles
-
-- **Use multiples of 4px.** The scale above is built from a 4px base. Custom values that aren't multiples of 4 produce subtle visual noise.
-- **Vertical rhythm matters.** Consistent spacing between text blocks does more for legibility than any single typography choice.
-- **More space than you think.** When in doubt, increase the gap. Crowded interfaces feel harder to use than they are.
+| `bp.mobile` | `< 640px` | Phones (secondary — tool is desktop-first) |
+| `bp.tablet` | `640px – 1023px` | Tablets, small laptops |
+| `bp.desktop` | `≥ 1024px` | Primary target |

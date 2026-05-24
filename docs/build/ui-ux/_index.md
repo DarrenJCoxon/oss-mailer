@@ -8,7 +8,9 @@ See [the glossary](../GLOSSARY.md#surface) for the full definition of a surface.
 
 | Surface | Persona | Status |
 | --- | --- | --- |
-| _none yet — populated during the UI/UX + Design System phase of planning (phase C)_ | | |
+| [Send Log / Dashboard](send-log.md) | P001 | 🔵 proposed |
+| [Test Send](test-send.md) | P001 | 🔵 proposed |
+| [Config Health Check](config-health.md) | P001 | 🔵 proposed |
 
 ## What goes in a surface file
 

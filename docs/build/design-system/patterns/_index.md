@@ -6,7 +6,8 @@ Recurring page-level shapes that combine components in consistent ways. A **patt
 
 | Pattern | Status |
 | --- | --- |
-| _none yet — patterns emerge as the project develops; sketch the first ones during Phase C of planning_ | |
+| [Form Layout](form-layout.md) | 🔵 proposed |
+| [Data Table with Filters](data-table-with-filters.md) | 🔵 proposed |
 
 ## Typical patterns
 

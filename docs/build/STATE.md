@@ -12,15 +12,15 @@ This project is at the start of its planning arc. The AI will walk you through f
 | --- | --- | --- |
 | A — Orientation | Project description, 1-3 personas, the horizon map | ✅ complete (2026-05-24) |
 | B — Architecture & Contracts | The major pieces of the project and what they exchange | ✅ complete (2026-05-24) |
-| C — UI/UX + Design System | The user-facing surfaces and the shared visual language | 🟡 next |
-| D — Maps | Phases of work and the near-term plan | 🔵 not yet started |
+| C — UI/UX + Design System | The user-facing surfaces and the shared visual language | ✅ complete (2026-05-24) |
+| D — Maps | Phases of work and the near-term plan | 🟡 next |
 | E — Initial Work Units | The first 5-10 things to build, in dependency order | 🔵 not yet started |
 
 When you run `/start-of-session` on this fresh project, the AI will see this tracker and offer to begin Phase A.
 
 ## What is currently in flight
 
-Phase B complete. 6 modules + contracts filed. Phase C — UI/UX + Design System — is next.
+Phase C complete. 3 surfaces + full design system filed. Phase D — Maps — is next.
 
 ## Project description
 
@@ -32,7 +32,7 @@ Nothing yet — Phase A planning in progress.
 
 ## What is next
 
-Phase C — UI/UX + Design System. Enumerate every user-facing surface and build the design system.
+Phase D — Maps. Produce Map 2 (phases in detail) and Map 3 (near-term plan).
 
 ## Open questions blocking progress
 
@@ -51,6 +51,7 @@ None blocking. Q001 resolved → D002.
 | D001 — Open-source and self-hosted, no SaaS | ✅ accepted | 2026-05-24 |
 | D002 — No fallback provider, routing by category | ✅ accepted | 2026-05-24 |
 | D003 — Hybrid send: magic links sync, bulk async via queue | ✅ accepted | 2026-05-24 |
+| D004 — Design language: blue/orange/grey, Inter + JetBrains Mono, dark/light/system | ✅ accepted | 2026-05-24 |
 
 ## Active work units
 
