@@ -8,7 +8,7 @@ This is **load-bearing for cost auditability** — if you ever wonder "is the sw
 
 | Date | Work unit | Outcome | Cost (est.) |
 | --- | --- | --- | --- |
-| _none yet — entries appear here as `/build-wu` runs_ | | | |
+| 2026-05-24 | [WU-001 — Project scaffolding](2026-05-24-wu-001.md) | APPROVED ✅ | ~$0.27 |
 
 ## What a swarm run captures
 

@@ -21,7 +21,7 @@ A `send_log` table exists in Neon Postgres, managed by a Drizzle migration. The 
 
 ## How we'll know it's done
 
-1. `npx drizzle-kit push` creates the `send_log` table in Neon with columns: `id` (uuid), `category`, `to`, `provider`, `success` (boolean), `message_id`, `error_detail`, `sent_at` (timestamp), `created_at` (timestamp), `duration_ms` (integer).
+1. `npm run db:generate && npm run db:migrate` creates the `send_log` table in Neon with columns: `id` (uuid), `category`, `to`, `provider`, `success` (boolean), `message_id`, `error_detail`, `sent_at` (timestamp), `created_at` (timestamp), `duration_ms` (integer). Migration file committed to `drizzle/`.
 2. `writeSendAttempt()` inserts a row and returns the inserted record's `id`.
 3. `getRecentSends({ limit, category?, status? })` returns at most `limit` rows in descending `sent_at` order, filtered by category and/or status if provided.
 4. A DB connection failure in `writeSendAttempt` throws `SendLogError` — not a raw Drizzle/Postgres error. (Mail Sender catches this — the throw is correct; the swallow happens one layer up.)

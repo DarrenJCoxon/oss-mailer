@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-24 (Phase E complete — planning arc closed)
+**Last updated:** 2026-05-24 (WU-001 shipped — scaffolding complete)
 
 ## Planning progress
 
@@ -20,7 +20,7 @@ When you run `/start-of-session` on this fresh project, the AI will see this tra
 
 ## What is currently in flight
 
-Planning arc complete (Phases A–E). 11 work units filed and ordered. Phase 1 Core Build has started. WU-001 (project scaffolding) is the active work unit — nothing can proceed until it lands.
+WU-001 (project scaffolding) ✅ shipped. Next: WU-002 (EmailProvider + SES adapter), WU-004 (Template Renderer), WU-006 (Send Log backend), and WU-010 (Config Health UI) can all start in parallel. Run `/build-wu WU-002` to continue Phase 1.
 
 ## Project description
 
@@ -28,11 +28,11 @@ A self-hosted email routing service that sits in front of cheap bulk providers (
 
 ## What just shipped
 
-Nothing yet — Phase A planning in progress.
+**WU-001 — Project scaffolding** (2026-05-24). Next.js 15 + TypeScript strict + Drizzle ORM + Neon + Vitest + Tailwind v4 all wired. 12 env vars validated at startup. generate+migrate workflow (D009). 7 tests passing.
 
 ## What is next
 
-Complete WU-001 (project scaffolding). After it lands: WU-002, WU-004, WU-006, WU-010 can all start in parallel. Run `/build-wu WU-001` to spawn the swarm.
+Run `/build-wu WU-002` to start the EmailProvider interface + SES adapter. WU-004, WU-006, and WU-010 can start in parallel with WU-002 — all four have no remaining dependencies.
 
 ## Open questions blocking progress
 
@@ -56,13 +56,14 @@ None blocking. Q001 resolved → D002.
 | D006 — `from` address from `MAILER_FROM` env var | ✅ accepted | 2026-05-24 |
 | D007 — Template derivable from category, `template` field dropped | ✅ accepted | 2026-05-24 |
 | D008 — Templates must meet deliverability standards | ✅ accepted | 2026-05-24 |
+| D009 — Drizzle generate+migrate workflow, not push | ✅ accepted | 2026-05-24 |
 
 ## Active work units
 
 | Work Unit | Status | Notes |
 | --- | --- | --- |
-| [WU-001 — Project scaffolding](docs/build/work-units/001-project-scaffolding.md) | 🟡 in flight | No deps — first to build |
-| [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/002-email-provider-interface-ses-adapter.md) | 🔵 proposed | After WU-001 |
+| [WU-001 — Project scaffolding](docs/build/work-units/done/001-project-scaffolding.md) | ✅ shipped | — |
+| [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/002-email-provider-interface-ses-adapter.md) | 🟡 in flight | Next to build |
 | [WU-003 — Router](docs/build/work-units/003-router.md) | 🔵 proposed | After WU-002 |
 | [WU-004 — Template Renderer](docs/build/work-units/004-template-renderer.md) | 🔵 proposed | After WU-001 |
 | [WU-005 — Mail Sender](docs/build/work-units/005-mail-sender.md) | 🔵 proposed | After WU-002, 003, 004 |

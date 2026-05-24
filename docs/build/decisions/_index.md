@@ -14,6 +14,7 @@ A **decision** is a choice that's been made and shouldn't drift. Once accepted, 
 | D006 | Sender `from` address from `MAILER_FROM` env var — not passed per-request | ✅ accepted | 2026-05-24 |
 | D007 | Email template derivable from category — `template` field dropped from API | ✅ accepted | 2026-05-24 |
 | D008 | Templates must meet deliverability standards (plain text, unsubscribe, no images) | ✅ accepted | 2026-05-24 |
+| D009 | Drizzle migration workflow: generate + migrate, not push | ✅ accepted | 2026-05-24 |
 
 ## When to file a decision
 
