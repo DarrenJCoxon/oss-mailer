@@ -37,8 +37,9 @@ Developer sees confirmation that sends are working, or identifies a failed send 
 
 ## Design system pieces this surface uses
 
-- **Components:** DataTable, Badge, FilterBar, EmptyState, PageHeader
-- **Patterns:** data-table-with-filters, empty-state
+- **Components:** DataTable, Badge, EmptyState, PageHeader
+- **Composition note:** FilterBar is not a standalone component — it is a horizontal row of `Select` inputs (category, status) following the `data-table-with-filters` pattern
+- **Patterns:** data-table-with-filters
 - **Tokens:** colour, typography (monospace for timestamps/IDs), spacing
 
 ## Accessibility

@@ -16,7 +16,7 @@ Queue accepts promotional and update send jobs from the API and guarantees async
 
 ## What this module consumes
 
-- A serialised send request: `{ category: 'promotional' | 'update', from: string, to: string, subject: string, template: string, data?: object }` — produced by [API](api.md)
+- A serialised send request: `{ category: 'promotional' | 'update', to: string, subject: string, props?: Record<string, unknown> }` — produced by [API](api.md). `from` and template selection are resolved server-side, not stored in the queue payload (D006, D007)
 
 ## What this module does not provide
 

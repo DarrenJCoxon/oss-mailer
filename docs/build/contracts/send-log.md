@@ -10,8 +10,8 @@ Send Log writes a record of every send attempt — success or failure — to Pos
 
 ## What this module produces
 
-- A persisted log entry per send attempt: `{ id, timestamp, category, to, provider, success, messageId?, error?, durationMs }`
-- A queryable Postgres table (Neon/Drizzle) — accessible directly via DB client or a lightweight admin route
+- A persisted log entry per send attempt: `{ id: uuid, category: string, to: string, provider: string, success: boolean, message_id?: string, error_detail?: string, sent_at: timestamp, created_at: timestamp, duration_ms: number }`
+- A queryable Postgres table (Neon/Drizzle) with the schema above — accessible directly via DB client or a lightweight admin route
 
 ## What this module consumes
 
@@ -26,7 +26,7 @@ Send Log writes a record of every send attempt — success or failure — to Pos
 
 ## How it fails
 
-- If the Postgres write fails, the failure is logged to console but does not affect the send result — logging is best-effort, not transactional with the send
+- `writeSendAttempt()` throws `SendLogError` on Postgres write failure. Mail Sender catches this, logs to stderr, and continues — the log write failure does not affect the send result. Logging is best-effort, not transactional with the send.
 
 ## Personas this contract serves
 

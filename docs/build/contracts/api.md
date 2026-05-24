@@ -16,8 +16,10 @@ API accepts a send request from the developer's backend, validates it, and eithe
 
 ## What this module consumes
 
-- A send request from the caller: `{ category: 'magic_link' | 'promotional' | 'update', from: string, to: string, subject: string, template: string, data?: object }`
-- An API key for auth — from env vars, validated on every request
+- A send request from the caller: `{ category: 'magic_link' | 'promotional' | 'update', to: string, subject: string, props?: Record<string, unknown> }`
+- An API key for auth — `Authorization: Bearer <MAILER_API_KEY>` header, validated on every request
+- Sender `from` address — read from `MAILER_FROM` env var, not passed by caller (D006)
+- Template selection — derived from `category` internally, not passed by caller (D007)
 
 ## What this module does not provide
 

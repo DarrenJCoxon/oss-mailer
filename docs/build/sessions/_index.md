@@ -12,6 +12,7 @@ The session log is the project's **replay history**. Anyone joining mid-project 
 | 2026-05-24 | [Phase B — Architecture & Contracts](2026-05-24-phase-b-architecture.md) | — (planning) | Phase B complete. 7 modules + contracts filed. D003 filed. Phase C next. |
 | 2026-05-24 | [Phase C — UI/UX + Design System](2026-05-24-phase-c-uiux.md) | — (planning) | Phase C complete. 3 surfaces, full design system, D004. Phase D next. |
 | 2026-05-24 | [Phase D — Maps](2026-05-24-phase-d-maps.md) | — (planning) | Phase D complete. Map 2 (3 phases + gates) and Map 3 (near-term) filed. D005. Phase E next. |
+| 2026-05-24 | [Phase E — Initial Work Units + Plan Review](2026-05-24-phase-e-initial-wus.md) | WU-001 | Planning arc complete. 11 WUs filed. D006, D007, D008. 30+ review findings resolved. WU-001 in flight. |
 
 ## What a session entry captures
 

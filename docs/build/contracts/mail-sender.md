@@ -16,10 +16,11 @@ Mail Sender accepts a categorised send request and guarantees the email reaches 
 
 ## What this module consumes
 
-- A send request containing: sender address, recipient address, subject, email category (`magic_link` / `promotional` / `update`), and rendered HTML body — produced by the caller via the API
-- A provider selection — produced by [Router](router.md)
-- Rendered HTML body — produced by [Template Renderer](template-renderer.md)
-- An available provider connection — produced by [Provider Adapter](provider-adapter.md)
+- A send request: `{ category, to, subject, props? }` — forwarded from the API
+- `from` address — from `MAILER_FROM` env var (D006)
+- Provider selection — Mail Sender calls [Router](router.md) internally; API does not pre-resolve it
+- Rendered HTML + plain-text — Mail Sender calls [Template Renderer](template-renderer.md) internally; API passes raw `props`, not pre-rendered HTML (D007)
+- Provider adapter instance — returned by Router, implements [EmailProvider interface](provider-adapter.md)
 
 ## What this module does not provide
 

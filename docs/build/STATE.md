@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-24 (Phase D complete)
+**Last updated:** 2026-05-24 (Phase E complete — planning arc closed)
 
 ## Planning progress
 
@@ -14,13 +14,13 @@ This project is at the start of its planning arc. The AI will walk you through f
 | B — Architecture & Contracts | The major pieces of the project and what they exchange | ✅ complete (2026-05-24) |
 | C — UI/UX + Design System | The user-facing surfaces and the shared visual language | ✅ complete (2026-05-24) |
 | D — Maps | Phases of work and the near-term plan | ✅ complete (2026-05-24) |
-| E — Initial Work Units | The first 5-10 things to build, in dependency order | 🟡 next |
+| E — Initial Work Units | The first 5-10 things to build, in dependency order | ✅ complete (2026-05-24) |
 
 When you run `/start-of-session` on this fresh project, the AI will see this tracker and offer to begin Phase A.
 
 ## What is currently in flight
 
-Phase D complete. Map 2 (3 build phases with entry/exit gates) and Map 3 (near-term plan) filed. Phase E — Initial Work Units — is next.
+Planning arc complete (Phases A–E). 11 work units filed and ordered. Phase 1 Core Build has started. WU-001 (project scaffolding) is the active work unit — nothing can proceed until it lands.
 
 ## Project description
 
@@ -32,7 +32,7 @@ Nothing yet — Phase A planning in progress.
 
 ## What is next
 
-Phase E — Initial Work Units. File the first 5–10 work units in dependency order (~60 min). After that, the planning arc closes and Phase 1 Core Build begins.
+Complete WU-001 (project scaffolding). After it lands: WU-002, WU-004, WU-006, WU-010 can all start in parallel. Run `/build-wu WU-001` to spawn the swarm.
 
 ## Open questions blocking progress
 
@@ -53,12 +53,25 @@ None blocking. Q001 resolved → D002.
 | D003 — Hybrid send: magic links sync, bulk async via queue | ✅ accepted | 2026-05-24 |
 | D004 — Design language: blue/orange/grey, Inter + JetBrains Mono, dark/light/system | ✅ accepted | 2026-05-24 |
 | D005 — QStash async queue in Phase 1, not Phase 2 | ✅ accepted | 2026-05-24 |
+| D006 — `from` address from `MAILER_FROM` env var | ✅ accepted | 2026-05-24 |
+| D007 — Template derivable from category, `template` field dropped | ✅ accepted | 2026-05-24 |
+| D008 — Templates must meet deliverability standards | ✅ accepted | 2026-05-24 |
 
 ## Active work units
 
 | Work Unit | Status | Notes |
 | --- | --- | --- |
-| _none yet — Phase E of planning produces the first batch_ | | |
+| [WU-001 — Project scaffolding](docs/build/work-units/001-project-scaffolding.md) | 🟡 in flight | No deps — first to build |
+| [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/002-email-provider-interface-ses-adapter.md) | 🔵 proposed | After WU-001 |
+| [WU-003 — Router](docs/build/work-units/003-router.md) | 🔵 proposed | After WU-002 |
+| [WU-004 — Template Renderer](docs/build/work-units/004-template-renderer.md) | 🔵 proposed | After WU-001 |
+| [WU-005 — Mail Sender](docs/build/work-units/005-mail-sender.md) | 🔵 proposed | After WU-002, 003, 004 |
+| [WU-006 — Send Log backend](docs/build/work-units/006-send-log-backend.md) | 🔵 proposed | After WU-001 |
+| [WU-007 — Queue](docs/build/work-units/007-queue.md) | 🔵 proposed | After WU-005 |
+| [WU-008 — API endpoint](docs/build/work-units/008-api-endpoint.md) | 🔵 proposed | After WU-005, 007 |
+| [WU-009 — Test Send UI](docs/build/work-units/009-test-send-ui.md) | 🔵 proposed | After WU-008 |
+| [WU-010 — Config Health Check UI](docs/build/work-units/010-config-health-check-ui.md) | 🔵 proposed | After WU-001 |
+| [WU-011 — Send Log Dashboard UI](docs/build/work-units/011-send-log-dashboard-ui.md) | 🔵 proposed | After WU-006, 008 |
 
 ## How to read this file
 

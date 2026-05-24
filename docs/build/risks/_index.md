@@ -7,6 +7,9 @@ A **risk** is something that could go wrong and would matter if it did. Filed he
 | ID | Risk | Severity | Status | Date opened |
 | --- | --- | --- | --- | --- |
 | R001 | AWS SES sandbox mode — new accounts can only send to verified addresses until production access is granted | Medium | open | 2026-05-24 |
+| R002 | Upstash QStash signup required — deploy-time blocker if developer doesn't have an account; adds friction similar to R001 | Low | open | 2026-05-24 |
+| R003 | Vercel function timeout (10s default on Hobby plan) — magic-link 3s send budget leaves only 7s headroom; cold-start latency could breach this | Medium | open | 2026-05-24 |
+| R004 | SES from-address domain verification delay — DNS propagation can take hours; P001 can't send until the verified domain/address is confirmed in SES console | Medium | open | 2026-05-24 |
 
 ## Severity
 

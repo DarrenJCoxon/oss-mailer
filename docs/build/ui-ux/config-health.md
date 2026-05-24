@@ -18,7 +18,8 @@ The developer has set their env vars and wants a quick sanity check before firin
 - **Checklist** — one row per config key, with status:
   - ✅ green — env var is set
   - ❌ red — env var is missing
-  - Rows: `SES_ACCESS_KEY_ID`, `SES_SECRET_ACCESS_KEY`, `SES_REGION`, `MAGIC_LINK_PROVIDER`, `PROMOTIONAL_PROVIDER`, `UPDATE_PROVIDER`, `API_KEY`, `DATABASE_URL`, `QSTASH_TOKEN`
+  - Rows: `MAILER_API_KEY`, `MAILER_FROM`, `SES_ACCESS_KEY_ID`, `SES_REGION`, `MAGIC_LINK_PROVIDER`, `PROMOTIONAL_PROVIDER`, `UPDATE_PROVIDER`, `DATABASE_URL`, `QSTASH_TOKEN`, `QSTASH_CURRENT_SIGNING_KEY`, `QSTASH_NEXT_SIGNING_KEY`
+  - Note: secret key values are never shown — only presence/absence checked
 - **Provider routing summary** — shows the resolved routing table: `magic_link → ses`, `promotional → ses`, `update → ses` (or whatever is configured)
 - **Overall status** — top of page: "All systems configured" (green) or "Configuration incomplete" (red) + count of missing vars
 
@@ -38,8 +39,9 @@ Developer sees green across all rows and is confident to proceed. Or they see re
 
 ## Design system pieces this surface uses
 
-- **Components:** StatusRow, PageHeader, Badge (success/error)
-- **Patterns:** checklist
+- **Components:** PageHeader, Badge (success/error/warning)
+- **Composition note:** StatusRow is not a standalone component — it is a `<tr>` or `<div>` row containing an env var name (`text.mono`), a `Badge` (success/error), and optional description text (`text.body.sm`)
+- **Composition note:** "checklist" pattern = a table of StatusRow compositions; no separate pattern file
 - **Tokens:** colour (success/error semantic), typography, spacing
 
 ## Accessibility

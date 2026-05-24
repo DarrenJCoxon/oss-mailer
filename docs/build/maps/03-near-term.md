@@ -5,27 +5,26 @@
 ## Where we are
 
 **Last updated:** 2026-05-24
-**Current phase:** Phase 0 — Foundation (closing)
-**Active work unit:** none yet — Phase E files the first batch
+**Current phase:** Phase 1 — Core Build (just started)
+**Active work unit:** [WU-001 — Project scaffolding](../work-units/001-project-scaffolding.md)
 **Approach:** ship as fast as possible; no fixed cadence
 
 ## Right now
 
-Phase D (Maps) just completed. The planning arc has one step left: Phase E — Initial Work Units (~60 min). After Phase E the arc closes and Phase 1 Core Build begins immediately.
+Planning arc complete (Phases A–E). WU-001 is the first active work unit. After WU-001 lands, four work units can proceed in parallel (WU-002, WU-004, WU-006, WU-010).
 
 ## What's next
 
 | Step | What | Status |
 | --- | --- | --- |
-| 1 | Phase E — file first 5–10 work units in dependency order | 🟡 next |
-| 2 | Phase 0 closes — planning arc complete | 🔵 pending |
-| 3 | WU-001 — project scaffolding (Next.js, Drizzle, env setup) | 🔵 pending |
-| 4 | WU-002 — provider adapter interface + SES implementation | 🔵 pending |
-| 5 | WU-003 — routing engine (category → provider dispatch) | 🔵 pending |
-| 6 | WU-004 — QStash queue integration (async sends) | 🔵 pending |
-| 7 | WU-005 — Send Log (Postgres schema + API) | 🔵 pending |
-
-Work unit handles and exact scope are confirmed in Phase E. The list above is the expected shape, not the filed order.
+| 1 | Phase E complete — planning arc closed | ✅ done |
+| 2 | [WU-001](../work-units/001-project-scaffolding.md) — project scaffolding | 🟡 in flight |
+| 3 | [WU-002](../work-units/002-email-provider-interface-ses-adapter.md) + [WU-004](../work-units/004-template-renderer.md) + [WU-006](../work-units/006-send-log-backend.md) + [WU-010](../work-units/010-config-health-check-ui.md) — parallel after WU-001 | 🔵 pending |
+| 4 | [WU-003](../work-units/003-router.md) — router (after WU-002) | 🔵 pending |
+| 5 | [WU-005](../work-units/005-mail-sender.md) — mail sender (after WU-002, 003, 004, 006) | 🔵 pending |
+| 6 | [WU-007](../work-units/007-queue.md) — queue/QStash (after WU-005) | 🔵 pending |
+| 7 | [WU-008](../work-units/008-api-endpoint.md) — API endpoint (after WU-005, 007) | 🔵 pending |
+| 8 | [WU-009](../work-units/009-test-send-ui.md) + [WU-011](../work-units/011-send-log-dashboard-ui.md) — UI surfaces (after WU-008) | 🔵 pending |
 
 ## First blocker to clear
 

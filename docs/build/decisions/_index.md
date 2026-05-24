@@ -11,6 +11,9 @@ A **decision** is a choice that's been made and shouldn't drift. Once accepted, 
 | D003 | Hybrid send: magic links synchronous, promotional/update async via queue | ✅ accepted | 2026-05-24 |
 | D004 | Design language: blue/orange/grey, Inter + JetBrains Mono, dark/light/system | ✅ accepted | 2026-05-24 |
 | D005 | QStash async queue is a Phase 1 deliverable, not deferred to Phase 2 | ✅ accepted | 2026-05-24 |
+| D006 | Sender `from` address from `MAILER_FROM` env var — not passed per-request | ✅ accepted | 2026-05-24 |
+| D007 | Email template derivable from category — `template` field dropped from API | ✅ accepted | 2026-05-24 |
+| D008 | Templates must meet deliverability standards (plain text, unsubscribe, no images) | ✅ accepted | 2026-05-24 |
 
 ## When to file a decision
 

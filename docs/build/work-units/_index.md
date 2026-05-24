@@ -6,7 +6,17 @@ A **work unit** is one concrete thing the project will build. Each one has a tit
 
 | WU | Title | Status | Notes |
 | --- | --- | --- | --- |
-| _none yet — file your first one with `/wu-new`_ | | | |
+| [WU-001](001-project-scaffolding.md) | Project scaffolding | 🟡 in flight | No deps — first to build |
+| [WU-002](002-email-provider-interface-ses-adapter.md) | `EmailProvider` interface + SES adapter | 🔵 proposed | Depends on WU-001 |
+| [WU-003](003-router.md) | Router — category → provider from env config | 🔵 proposed | Depends on WU-002 |
+| [WU-004](004-template-renderer.md) | Template Renderer — React Email → HTML | 🔵 proposed | Depends on WU-001 |
+| [WU-005](005-mail-sender.md) | Mail Sender — core sync delivery | 🔵 proposed | Depends on WU-002, WU-003, WU-004, WU-006 |
+| [WU-006](006-send-log-backend.md) | Send Log backend — Postgres schema + Drizzle + write path | 🔵 proposed | Depends on WU-001 |
+| [WU-007](007-queue.md) | Queue — QStash enqueue + webhook handler | 🔵 proposed | Depends on WU-005 |
+| [WU-008](008-api-endpoint.md) | API endpoint — `POST /api/send` | 🔵 proposed | Depends on WU-005, WU-007 |
+| [WU-009](009-test-send-ui.md) | Test Send UI | 🔵 proposed | Depends on WU-008 |
+| [WU-010](010-config-health-check-ui.md) | Config Health Check UI | 🔵 proposed | Depends on WU-001 |
+| [WU-011](011-send-log-dashboard-ui.md) | Send Log Dashboard UI | 🔵 proposed | Depends on WU-006, WU-008 |
 
 ## What status means
 

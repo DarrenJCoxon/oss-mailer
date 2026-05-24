@@ -10,15 +10,19 @@ Provider Adapter defines the `EmailProvider` interface and ships a concrete adap
 
 ## What this module produces
 
-- A shared `EmailProvider` interface: `send(request: SendRequest): Promise<SendResult>`
-- A concrete adapter for AWS SES implementing that interface
-- Each adapter reads its credentials from env vars and translates the standard `SendRequest` into provider-specific API calls
-- A `SendResult`: `{ success: boolean, messageId?: string, error?: string, provider: string, timestamp: string }`
+- A shared `EmailProvider` interface with three members:
+  - `name: string` — provider identifier used in Send Log records and Config Health display (e.g. `'ses'`)
+  - `validate(): void` — throws `ProviderError` immediately if required env vars are missing or clearly invalid; called at startup
+  - `send(request: ProviderSendRequest): Promise<SendResult>` — executes the send
+- A concrete adapter for AWS SES (AWS SDK v3) implementing that interface
+- Each adapter reads its credentials from env vars and translates the standard request into provider-specific API calls
+- `ProviderSendRequest`: `{ from: string, to: string, subject: string, html: string, text: string, headers?: Record<string, string> }`
+- `SendResult`: `{ success: boolean, messageId?: string, error?: string, provider: string, sentAt: string }` (ISO-8601 `sentAt`)
 
 ## What this module consumes
 
-- `SendRequest`: `{ from: string, to: string, subject: string, html: string }` — produced by [Mail Sender](mail-sender.md) from the API request and rendered template
-- Provider credentials — from env vars (e.g. `SES_ACCESS_KEY_ID`, `SES_SECRET_ACCESS_KEY`, `SES_REGION`)
+- `ProviderSendRequest` (see above) — assembled by Mail Sender from the API request, rendered template, and `MAILER_FROM` env var
+- SES adapter env vars: `SES_ACCESS_KEY_ID`, `SES_REGION` (plus the secret key — see `.env.example`)
 
 ## What this module does not provide
 
