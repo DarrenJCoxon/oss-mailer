@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-24
+**Last updated:** 2026-05-24 (Phase D complete)
 
 ## Planning progress
 
@@ -13,14 +13,14 @@ This project is at the start of its planning arc. The AI will walk you through f
 | A — Orientation | Project description, 1-3 personas, the horizon map | ✅ complete (2026-05-24) |
 | B — Architecture & Contracts | The major pieces of the project and what they exchange | ✅ complete (2026-05-24) |
 | C — UI/UX + Design System | The user-facing surfaces and the shared visual language | ✅ complete (2026-05-24) |
-| D — Maps | Phases of work and the near-term plan | 🟡 next |
-| E — Initial Work Units | The first 5-10 things to build, in dependency order | 🔵 not yet started |
+| D — Maps | Phases of work and the near-term plan | ✅ complete (2026-05-24) |
+| E — Initial Work Units | The first 5-10 things to build, in dependency order | 🟡 next |
 
 When you run `/start-of-session` on this fresh project, the AI will see this tracker and offer to begin Phase A.
 
 ## What is currently in flight
 
-Phase C complete. 3 surfaces + full design system filed. Phase D — Maps — is next.
+Phase D complete. Map 2 (3 build phases with entry/exit gates) and Map 3 (near-term plan) filed. Phase E — Initial Work Units — is next.
 
 ## Project description
 
@@ -32,7 +32,7 @@ Nothing yet — Phase A planning in progress.
 
 ## What is next
 
-Phase D — Maps. Produce Map 2 (phases in detail) and Map 3 (near-term plan).
+Phase E — Initial Work Units. File the first 5–10 work units in dependency order (~60 min). After that, the planning arc closes and Phase 1 Core Build begins.
 
 ## Open questions blocking progress
 
@@ -52,6 +52,7 @@ None blocking. Q001 resolved → D002.
 | D002 — No fallback provider, routing by category | ✅ accepted | 2026-05-24 |
 | D003 — Hybrid send: magic links sync, bulk async via queue | ✅ accepted | 2026-05-24 |
 | D004 — Design language: blue/orange/grey, Inter + JetBrains Mono, dark/light/system | ✅ accepted | 2026-05-24 |
+| D005 — QStash async queue in Phase 1, not Phase 2 | ✅ accepted | 2026-05-24 |
 
 ## Active work units
 
