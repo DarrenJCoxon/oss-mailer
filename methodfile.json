@@ -1,0 +1,101 @@
+{
+  "$schema": "https://nusoft.dev/schemas/methodfile/v1.json",
+  "method": {
+    "version": "1.1",
+    "lastValidatedAt": "{{TODAY}}"
+  },
+  "project": {
+    "name": "oss-mailer",
+    "tagline": "Self-hosted open-source email routing — transactional and promotional sends at commodity cost",
+    "domain": "email-infrastructure"
+  },
+  "techStack": {
+    "defined": true,
+    "languages": ["TypeScript"],
+    "frontend": "Next.js 15 (App Router)",
+    "backend": "Next.js API Routes / Server Actions",
+    "database": "PostgreSQL (Neon) via Drizzle ORM",
+    "deployment": "Vercel",
+    "externalServices": ["AWS SES", "Upstash QStash", "React Email"],
+    "notes": "Email routing service — SES is primary send provider for cost. QStash handles async send queue. React Email for template rendering."
+  },
+  "testing": {
+    "framework": "vitest",
+    "command": "npx vitest run",
+    "configPath": "vitest.config.ts",
+    "enforced": true,
+    "policy": "every-touched-source-file-must-be-covered-by-a-passing-test",
+    "appliesTo": ["typescript", "javascript", "tsx", "jsx"],
+    "comment": "Vitest is the default test runner for JS/TS implementation repos. The swarm enforces two gates before a WU can promote: (1) `npx vitest run` exits 0; (2) every source file touched by the WU is referenced by at least one .test.ts(x) or .spec.ts(x). If the project's techStack does not include JS/TS, set framework to whatever idiom the stack uses (or null to opt out — the coordinator will warn but not block)."
+  },
+  "catalogue": {
+    "root": "docs/build/",
+    "registers": {
+      "personas": "personas/",
+      "maps": "maps/",
+      "architecture": "architecture/",
+      "contracts": "contracts/",
+      "uiUx": "ui-ux/",
+      "designSystem": "design-system/",
+      "decisions": "decisions/",
+      "openQuestions": "open-questions/",
+      "workUnits": "work-units/",
+      "risks": "risks/",
+      "sessions": "sessions/",
+      "swarm": "swarm/"
+    },
+    "snapshot": "STATE.md",
+    "welcome": "WELCOME.md",
+    "glossary": "GLOSSARY.md",
+    "protocols": {
+      "startOfSession": "START-OF-SESSION.md",
+      "endOfSession": "END-OF-SESSION.md"
+    }
+  },
+  "planning": {
+    "phaseA_orientation": "not_started",
+    "phaseB_architecture": "not_started",
+    "phaseC_uiUxDesignSystem": "not_started",
+    "phaseD_maps": "not_started",
+    "phaseE_initialWorkUnits": "not_started",
+    "completedAt": null
+  },
+  "operator": {
+    "mode": "developer",
+    "modeSelectedAt": "2026-05-24",
+    "comment": "Tone & explanation depth for every operator-facing protocol (plan-*, start-of-session, end-of-session, wu-new, persona-new, build-wu). One of 'coaching' (no-dev-experience, walks through everything), 'standard' (domain-expert default, plain English), 'developer' (experienced dev, technical vocabulary, terse). Picked at first /start-of-session and persisted here. See docs/build/OPERATOR-MODES.md for the canonical definition of each mode."
+  },
+  "swarm": {
+    "models": {
+      "architect": "opus",
+      "debugger": "opus",
+      "coder": "sonnet",
+      "tester": "sonnet",
+      "reviewer": "sonnet",
+      "researcher": "haiku"
+    },
+    "comment": "Default model routing for swarm agents. Opus for design + debugging (reasoning-heavy, ~20% of work). Sonnet for coding + tests + review (the 80%). Haiku for research + lookups. Override per-spawn by passing `model: '...'` to the Task tool. See docs/build/WELCOME.md for the rationale."
+  },
+  "harness": {
+    "wired": true,
+    "runtime": {
+      "nuvector": ".nuos-catalogue/index.nv",
+      "nuflow": null,
+      "nuwiki": null
+    },
+    "packs": {
+      "method": null
+    },
+    "documentTypes": []
+  },
+  "domain": {
+    "type": "standard",
+    "confidentialityRequired": false,
+    "auditRetentionMonths": 0
+  },
+  "ecology": {
+    "role": "{{PROJECT_ROLE}}",
+    "parentCatalogue": null,
+    "siblingCatalogues": []
+  }
+}
