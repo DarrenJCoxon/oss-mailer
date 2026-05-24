@@ -6,7 +6,13 @@ The **architecture** register describes the major pieces of {{PROJECT_NAME}} and
 
 | Module | Purpose | Status |
 | --- | --- | --- |
-| _none yet — populated during the Architecture phase of planning (phase B)_ | | |
+| [API](api.md) | HTTP entry point — accepts send requests, branches sync/async by category | 🔵 proposed |
+| [Mail Sender](mail-sender.md) | Core module — delivers email via the selected provider adapter | 🔵 proposed |
+| [Router](router.md) | Picks the provider for a given email category from env var config | 🔵 proposed |
+| [Provider Adapter](provider-adapter.md) | Standard `EmailProvider` interface + concrete adapters (SES v1) | 🔵 proposed |
+| [Queue](queue.md) | Async delivery of promotional/update sends via Upstash QStash with retry | 🔵 proposed |
+| [Template Renderer](template-renderer.md) | Renders React Email components to HTML body strings | 🔵 proposed |
+| [Send Log](send-log.md) | Persists every send attempt to Postgres for querying | 🔵 proposed |
 
 ## What goes in this register
 

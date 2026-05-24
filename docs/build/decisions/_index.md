@@ -8,6 +8,7 @@ A **decision** is a choice that's been made and shouldn't drift. Once accepted, 
 | --- | --- | --- | --- |
 | D001 | Open-source and self-hosted — no SaaS, no multi-tenancy | ✅ accepted | 2026-05-24 |
 | D002 | No fallback provider — routing by category, retry on failure | ✅ accepted | 2026-05-24 |
+| D003 | Hybrid send: magic links synchronous, promotional/update async via queue | ✅ accepted | 2026-05-24 |
 
 ## When to file a decision
 

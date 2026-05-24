@@ -6,7 +6,13 @@ A **contract** is what one piece of the project guarantees it will provide to ot
 
 | Contract | Owner module | Status |
 | --- | --- | --- |
-| _none yet — populated during the Architecture phase of planning (phase B)_ | | |
+| [api](api.md) | API | 🔵 proposed |
+| [mail-sender](mail-sender.md) | Mail Sender | 🔵 proposed |
+| [router](router.md) | Router | 🔵 proposed |
+| [provider-adapter](provider-adapter.md) | Provider Adapter | 🔵 proposed |
+| [queue](queue.md) | Queue | 🔵 proposed |
+| [template-renderer](template-renderer.md) | Template Renderer | 🔵 proposed |
+| [send-log](send-log.md) | Send Log | 🔵 proposed |
 
 ## What a contract captures
 
