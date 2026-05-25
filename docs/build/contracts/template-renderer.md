@@ -37,6 +37,7 @@ Template Renderer takes a template name and data object and returns a rendered H
 
 | WU | Status |
 | --- | --- |
+| [WU-004 — Template Renderer](../work-units/done/004-template-renderer.md) | ✅ shipped |
 
 ## Work units that consume this contract
 

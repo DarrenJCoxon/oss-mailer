@@ -38,6 +38,7 @@ Router takes an email category and returns the provider that should handle the s
 
 | WU | Status |
 | --- | --- |
+| [WU-003 — Router](../work-units/done/003-router.md) | ✅ shipped |
 
 ## Work units that consume this contract
 

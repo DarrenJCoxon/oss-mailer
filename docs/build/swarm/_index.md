@@ -10,6 +10,8 @@ This is **load-bearing for cost auditability** — if you ever wonder "is the sw
 | --- | --- | --- | --- |
 | 2026-05-24 | [WU-001 — Project scaffolding](2026-05-24-wu-001.md) | APPROVED ✅ | ~$0.27 |
 | 2026-05-24 | [WU-002 — EmailProvider interface + SES adapter](2026-05-24-wu-002.md) | APPROVED ✅ | ~$0.79 |
+| 2026-05-24 | [WU-003 — Router](2026-05-24-wu-003.md) | APPROVED ✅ | ~$0.47 |
+| 2026-05-25 | [WU-004 — Template Renderer](2026-05-25-wu-004.md) | APPROVED ✅ | ~$0.58 |
 
 ## What a swarm run captures
 

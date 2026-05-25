@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-24 (WU-002 shipped — EmailProvider + SES adapter)
+**Last updated:** 2026-05-25 (WU-004 shipped — Template Renderer)
 
 ## Planning progress
 
@@ -20,7 +20,7 @@ When you run `/start-of-session` on this fresh project, the AI will see this tra
 
 ## What is currently in flight
 
-WU-001 and WU-002 ✅ shipped. WU-003 (Router) is unblocked — it depends only on WU-002. WU-004 (Template Renderer), WU-006 (Send Log backend), and WU-010 (Config Health UI) remain available in parallel.
+WU-001 through WU-004 ✅ shipped. WU-005 (Mail Sender) is now unblocked by WU-002 + WU-003 + WU-004. WU-006 (Send Log backend) and WU-010 (Config Health UI) remain available in parallel.
 
 ## Project description
 
@@ -28,11 +28,11 @@ A self-hosted email routing service that sits in front of cheap bulk providers (
 
 ## What just shipped
 
-**WU-002 — EmailProvider interface + SES adapter** (2026-05-24). `EmailProvider` interface, `ProviderError` class, `createSesAdapter()` factory. AWS SDK v3, List-Unsubscribe MIME path, no-throw `send()` contract. 43 tests passing.
+**WU-004 — Template Renderer** (2026-05-25). `renderTemplate(category, props)` → `{ html, text }` via React Email static registry pattern. Three templates (`magic_link`, `promotional`, `update`) meeting D008 deliverability standards. `TemplateError`, `isTemplateError`. 40 tests, 110 total passing.
 
 ## What is next
 
-Run `/build-wu WU-003` (Router — category → provider). Or run WU-004, WU-006, WU-010 in parallel — all are unblocked.
+Run `/build-wu WU-005` (Mail Sender — now fully unblocked), `/build-wu WU-006` (Send Log backend), or `/build-wu WU-010` (Config Health UI).
 
 ## Open questions blocking progress
 
@@ -64,8 +64,8 @@ None blocking. Q001 resolved → D002.
 | --- | --- | --- |
 | [WU-001 — Project scaffolding](docs/build/work-units/done/001-project-scaffolding.md) | ✅ shipped | — |
 | [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/done/002-email-provider-interface-ses-adapter.md) | ✅ shipped | — |
-| [WU-003 — Router](docs/build/work-units/003-router.md) | 🔵 proposed | After WU-002 |
-| [WU-004 — Template Renderer](docs/build/work-units/004-template-renderer.md) | 🔵 proposed | After WU-001 |
+| [WU-003 — Router](docs/build/work-units/done/003-router.md) | ✅ shipped | — |
+| [WU-004 — Template Renderer](docs/build/work-units/done/004-template-renderer.md) | ✅ shipped | — |
 | [WU-005 — Mail Sender](docs/build/work-units/005-mail-sender.md) | 🔵 proposed | After WU-002, 003, 004 |
 | [WU-006 — Send Log backend](docs/build/work-units/006-send-log-backend.md) | 🔵 proposed | After WU-001 |
 | [WU-007 — Queue](docs/build/work-units/007-queue.md) | 🔵 proposed | After WU-005 |

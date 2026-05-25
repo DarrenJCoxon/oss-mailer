@@ -15,6 +15,7 @@ The session log is the project's **replay history**. Anyone joining mid-project 
 | 2026-05-24 | [Phase E — Initial Work Units + Plan Review](2026-05-24-phase-e-initial-wus.md) | WU-001 | Planning arc complete. 11 WUs filed. D006, D007, D008. 30+ review findings resolved. WU-001 in flight. |
 | 2026-05-24 | [WU-001 — Project Scaffolding](2026-05-24-wu-001-scaffolding.md) | WU-002 | WU-001 ✅ shipped. D009 (generate+migrate). 12 env vars. 7 tests. WU-002/004/006/010 next in parallel. |
 | 2026-05-24 | [WU-002 — EmailProvider + SES adapter](2026-05-24-wu-002-email-provider.md) | WU-003 | WU-002 ✅ shipped. EmailProvider interface, ProviderError, createSesAdapter(). 43 tests. WU-003 next. |
+| 2026-05-25 | [WU-003 + WU-004 — Router + Template Renderer](2026-05-25-wu-003-router-wu-004-template-renderer.md) | WU-005 | WU-003 ✅ (eager-snapshot router, 70 tests) + WU-004 ✅ (React Email static registry, 110 tests). WU-005 next. |
 
 ## What a session entry captures
 
