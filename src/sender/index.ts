@@ -1,6 +1,7 @@
 import type { SendResult } from '../providers/interface'
 import type { createRouter, EmailCategory } from '../router'
 import { renderTemplate } from '../renderer'
+import type { TemplateOverride } from '../template-store'
 
 export type MailSenderErrorCode = 'TEMPLATE_ERROR' | 'SEND_LOG_ERROR' | 'MISSING_CONFIG'
 
@@ -60,9 +61,11 @@ const UNSUBSCRIBE_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
 export function createMailSender(
   router: ReturnType<typeof createRouter>,
   logWriter: SendLogWriter,
+  getOverride?: (category: EmailCategory) => Promise<TemplateOverride | undefined>,
 ): { send(req: SendRequest): Promise<SendResult> } {
   async function send(req: SendRequest): Promise<SendResult> {
-    const { html, text } = await renderTemplate(req.category, req.props)
+    const override = getOverride ? await getOverride(req.category) : undefined
+    const { html, text } = await renderTemplate(req.category, req.props, override)
 
     const adapter = router.resolve(req.category)
 
@@ -83,10 +86,12 @@ export function createMailSender(
 
     const start = Date.now()
 
+    const subject = override?.subject ?? req.subject
+
     const result = await adapter.send({
       from,
       to: req.to,
-      subject: req.subject,
+      subject,
       html,
       text,
       ...(headers ? { headers } : {}),

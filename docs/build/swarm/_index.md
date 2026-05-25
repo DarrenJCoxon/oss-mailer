@@ -19,6 +19,10 @@ This is **load-bearing for cost auditability** — if you ever wonder "is the sw
 | 2026-05-25 | [WU-009 — Test Send UI](2026-05-25-wu-009.md) | APPROVED ✅ | ~$1.55 |
 | 2026-05-25 | [WU-010 — Config Health Check UI](2026-05-25-wu-010.md) | APPROVED ✅ | ~$1.25 |
 | 2026-05-25 | [WU-011 — Send Log Dashboard UI](2026-05-25-wu-011.md) | APPROVED ✅ | ~$1.38 |
+| 2026-05-25 | [WU-012 — npm package + client SDK](2026-05-25-wu-012.md) | APPROVED ✅ | ~$1.73 |
+| 2026-05-25 | [WU-014 — Navigation shell + first-run experience](2026-05-25-wu-014.md) | APPROVED ✅ | ~$1.49 |
+| 2026-05-25 | [WU-015 — Settings page](2026-05-25-wu-015.md) | APPROVED ✅ | ~$0.88 |
+| 2026-05-25 | [WU-016 — Template management UI](2026-05-25-wu-016.md) | APPROVED ✅ | ~$1.40 |
 
 ## What a swarm run captures
 

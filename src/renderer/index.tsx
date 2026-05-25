@@ -50,6 +50,7 @@ const TEMPLATES = {
 export async function renderTemplate(
   category: EmailCategory,
   props?: Record<string, unknown>,
+  override?: { subject?: string; html?: string },
 ): Promise<{ html: string; text: string }> {
   if (!(category in TEMPLATES)) {
     throw new TemplateError({
@@ -57,6 +58,20 @@ export async function renderTemplate(
       category,
       message: `Unknown template for category: "${category}"`,
     })
+  }
+
+  if (
+    props !== undefined &&
+    typeof props === 'object' &&
+    props !== null &&
+    typeof (props as { html?: unknown }).html === 'string' &&
+    (props as { html: string }).html.length > 0
+  ) {
+    return { html: (props as { html: string }).html, text: '' }
+  }
+
+  if (override?.html && override.html.length > 0) {
+    return { html: override.html, text: '' }
   }
 
   const element = TEMPLATES[category](props as never)

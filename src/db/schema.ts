@@ -22,3 +22,13 @@ export const sendLog = pgTable('send_log', {
 
 export type InsertSendLog = typeof sendLog.$inferInsert
 export type SelectSendLog = typeof sendLog.$inferSelect
+
+export const emailTemplates = pgTable('email_templates', {
+  category: text('category').primaryKey(),
+  subject: text('subject'),
+  html: text('html'),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+export type InsertEmailTemplate = typeof emailTemplates.$inferInsert
+export type SelectEmailTemplate = typeof emailTemplates.$inferSelect

@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import { SendForm } from './SendForm'
+
+export const metadata: Metadata = {
+  title: 'Test send — oss-mailer',
+}
 
 export default function TestSendPage() {
   return (

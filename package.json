@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:client",
+    "test:client": "cd packages/oss-mailer && npm install && npm test",
+    "build:client": "cd packages/oss-mailer && npm install && npm run build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"

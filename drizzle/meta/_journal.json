@@ -8,6 +8,13 @@
       "when": 1779688709764,
       "tag": "0000_kind_apocalypse",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779775200000,
+      "tag": "0001_email_templates",
+      "breakpoints": true
     }
   ]
 }

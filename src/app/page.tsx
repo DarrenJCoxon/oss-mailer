@@ -1,6 +1,11 @@
+import type { Metadata } from 'next'
 import { getRecentSends } from '@/send-log'
 import { DEFAULT_LOG_LIMIT, toSendLogRow, DB_ERROR_COPY } from '@/log'
 import { LogTable } from './(dashboard)/LogTable'
+
+export const metadata: Metadata = {
+  title: 'Send log — oss-mailer',
+}
 
 export default async function Home() {
   let rows

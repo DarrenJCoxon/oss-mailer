@@ -130,7 +130,7 @@ describe('send() happy path — AC-1', () => {
 
     await send({ category: 'magic_link', to: 'user@example.com', subject: 'Login', props: { url: 'https://example.com/magic' } })
 
-    expect(vi.mocked(renderTemplate)).toHaveBeenCalledWith('magic_link', { url: 'https://example.com/magic' })
+    expect(vi.mocked(renderTemplate)).toHaveBeenCalledWith('magic_link', { url: 'https://example.com/magic' }, undefined)
   })
 
   it('calls router.resolve with the correct category', async () => {
@@ -391,5 +391,61 @@ describe('missing MAILER_FROM env var — AC-7', () => {
       caught = e
     }
     expect(isMailSenderError(caught)).toBe(true)
+  })
+})
+
+// ─── getOverride dependency — optional third arg ────────────────────────────
+
+describe('getOverride optional dependency', () => {
+  it('passes override to renderTemplate when getOverride returns a value', async () => {
+    const override = { subject: 'Custom subject', html: '<p>Custom</p>' }
+    const getOverride = vi.fn().mockResolvedValue(override)
+    const { send } = createMailSender(makeRouter(makeAdapter(makeSuccessResult())) as never, makeLogWriter(), getOverride)
+
+    await send({ category: 'magic_link', to: 'user@example.com', subject: 'Login' })
+
+    expect(vi.mocked(renderTemplate)).toHaveBeenCalledWith('magic_link', undefined, override)
+  })
+
+  it('passes undefined override to renderTemplate when getOverride returns undefined', async () => {
+    const getOverride = vi.fn().mockResolvedValue(undefined)
+    const { send } = createMailSender(makeRouter(makeAdapter(makeSuccessResult())) as never, makeLogWriter(), getOverride)
+
+    await send({ category: 'magic_link', to: 'user@example.com', subject: 'Login' })
+
+    expect(vi.mocked(renderTemplate)).toHaveBeenCalledWith('magic_link', undefined, undefined)
+  })
+
+  it('uses override.subject over req.subject when both present', async () => {
+    const override = { subject: 'DB subject' }
+    const getOverride = vi.fn().mockResolvedValue(override)
+    const adapter = makeAdapter(makeSuccessResult())
+    const { send } = createMailSender(makeRouter(adapter) as never, makeLogWriter(), getOverride)
+
+    await send({ category: 'magic_link', to: 'user@example.com', subject: 'Req subject' })
+
+    const callArg = adapter.send.mock.calls[0][0]
+    expect(callArg.subject).toBe('DB subject')
+  })
+
+  it('uses req.subject when getOverride returns no subject override', async () => {
+    const override = { html: '<p>Custom</p>' }
+    const getOverride = vi.fn().mockResolvedValue(override)
+    const adapter = makeAdapter(makeSuccessResult())
+    const { send } = createMailSender(makeRouter(adapter) as never, makeLogWriter(), getOverride)
+
+    await send({ category: 'magic_link', to: 'user@example.com', subject: 'Req subject' })
+
+    const callArg = adapter.send.mock.calls[0][0]
+    expect(callArg.subject).toBe('Req subject')
+  })
+
+  it('does not call getOverride when it is not provided', async () => {
+    const { send } = createMailSender(makeRouter(makeAdapter(makeSuccessResult())) as never, makeLogWriter())
+
+    await send({ category: 'magic_link', to: 'user@example.com', subject: 'Login' })
+
+    // renderTemplate called with undefined override — no getOverride was invoked
+    expect(vi.mocked(renderTemplate)).toHaveBeenCalledWith('magic_link', undefined, undefined)
   })
 })

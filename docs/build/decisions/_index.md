@@ -17,6 +17,9 @@ A **decision** is a choice that's been made and shouldn't drift. Once accepted, 
 | D009 | Drizzle migration workflow: generate + migrate, not push | ✅ accepted | 2026-05-24 |
 | D010 | `createLogWriter()` factory lives in `src/send-log/index.ts` | ✅ accepted | 2026-05-25 |
 | D011 | Send Log Dashboard: client-side filtering of a single server-fetched page | ✅ accepted | 2026-05-25 |
+| D012 | Client SDK lives in a separate `packages/oss-mailer/` package directory | ✅ accepted | 2026-05-25 |
+| D013 | Renderer accepts a `props.html` passthrough for pre-rendered HTML sends | ✅ accepted | 2026-05-25 |
+| D014 | Navigation shell lives in the root layout; no route-group boundary in Phase 1 | ✅ accepted | 2026-05-25 |
 
 ## When to file a decision
 

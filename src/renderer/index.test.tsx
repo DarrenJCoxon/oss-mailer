@@ -306,3 +306,76 @@ describe('TemplateError class', () => {
     expect(err).not.toBeInstanceOf(RouterError)
   })
 })
+
+// ─── override parameter — WU-016 ─────────────────────────────────────────────
+
+describe('renderTemplate override parameter — WU-016', () => {
+  it('returns override.html when provided and non-empty', async () => {
+    const result = await renderTemplate('magic_link', undefined, { html: '<p>Override</p>' })
+    expect(result).toEqual({ html: '<p>Override</p>', text: '' })
+  })
+
+  it('override.html takes precedence over built-in template', async () => {
+    const result = await renderTemplate('promotional', { subject: 'S', body: 'B', unsubscribeUrl: 'https://x.com' }, { html: '<p>Custom</p>' })
+    expect(result.html).toBe('<p>Custom</p>')
+    expect(result.text).toBe('')
+  })
+
+  it('props.html takes precedence over override.html', async () => {
+    const result = await renderTemplate('update', { html: '<p>Props</p>' }, { html: '<p>Override</p>' })
+    expect(result).toEqual({ html: '<p>Props</p>', text: '' })
+  })
+
+  it('falls through to built-in template when override has no html', async () => {
+    const result = await renderTemplate('magic_link', { url: 'https://example.com' }, { subject: 'Sub only' })
+    expect(result.html.length).toBeGreaterThan(0)
+    expect(result.html).toContain('https://example.com')
+  })
+
+  it('empty override.html falls through to built-in template', async () => {
+    const result = await renderTemplate('magic_link', { url: 'https://example.com' }, { html: '' })
+    expect(result.html).toContain('https://example.com')
+  })
+
+  it('undefined override has no effect', async () => {
+    const result = await renderTemplate('magic_link', { url: 'https://example.com' }, undefined)
+    expect(result.html).toContain('https://example.com')
+  })
+})
+
+// ─── props.html passthrough — D013 ───────────────────────────────────────────
+
+describe('renderTemplate props.html passthrough — D013', () => {
+  it('(a) update with props.html returns { html: <as-provided>, text: "" }', async () => {
+    const result = await renderTemplate('update', { html: '<div>hi</div>' })
+    expect(result).toEqual({ html: '<div>hi</div>', text: '' })
+  })
+
+  it('(b) promotional with props.html returns the HTML as-is (no react-email wrapper)', async () => {
+    const result = await renderTemplate('promotional', { html: '<p>x</p>' })
+    expect(result).toEqual({ html: '<p>x</p>', text: '' })
+  })
+
+  it('(c) magic_link with props.html returns the HTML as-is', async () => {
+    const result = await renderTemplate('magic_link', { html: '<a>signin</a>' })
+    expect(result).toEqual({ html: '<a>signin</a>', text: '' })
+  })
+
+  it('(d) empty string html falls back to template rendering and throws RENDER_FAILED', async () => {
+    await expect(
+      renderTemplate('update', { html: '' })
+    ).rejects.toMatchObject({ code: 'RENDER_FAILED' })
+  })
+
+  it('(e) non-string html falls back to template rendering and throws RENDER_FAILED', async () => {
+    await expect(
+      renderTemplate('update', { html: 123 as unknown as string })
+    ).rejects.toMatchObject({ code: 'RENDER_FAILED' })
+  })
+
+  it('(f) unknown category with props.html still throws UNKNOWN_TEMPLATE', async () => {
+    await expect(
+      renderTemplate('unknown' as never, { html: '<div>x</div>' })
+    ).rejects.toMatchObject({ code: 'UNKNOWN_TEMPLATE' })
+  })
+})

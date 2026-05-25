@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-25 (WU-011 shipped — Send Log Dashboard UI — all Phase 1 work units complete)
+**Last updated:** 2026-05-25 (WU-016 shipped — template management UI)
 
 ## Planning progress
 
@@ -20,7 +20,7 @@ When you run `/start-of-session` on this fresh project, the AI will see this tra
 
 ## What is currently in flight
 
-All Phase 1 work units (WU-001 through WU-011) ✅ shipped. Full send pipeline, browser test surface, config health page, and send log dashboard complete. Next: deploy to Vercel.
+WU-016 ✅ shipped — template management UI at /templates. DB schema, Server Actions, TemplateEditor client component, renderer override chain. WU-013 (incontact migration) is next.
 
 ## Project description
 
@@ -28,18 +28,19 @@ A self-hosted email routing service that sits in front of cheap bulk providers (
 
 ## What just shipped
 
+**WU-016 — Template management UI** (2026-05-25). `/templates` index with Default/Customised badges; `/templates/[category]` edit page with subject + HTML textarea + live `<iframe>` preview + Server Actions for save/reset. New `email_templates` Drizzle table (upsert on save, delete on reset). Renderer override chain: `props.html` → DB override → react-email built-in. Sender accepts optional `getOverride` dependency. 461 tests, 27 files. **Action required:** run `npm run db:migrate` to apply migration; wire `getTemplateOverride` into `src/app/api/send/route.ts` to activate DB overrides in production.
+
+**WU-015 — Settings page** (2026-05-25). `/settings` Server Component — no auth, reads all 13 REQUIRED_ENV_VARS + SES_SANDBOX_MODE via `buildSettingsReport`, grouped into Provider / API Security / Queue sections. Green summary card when all required set, amber when any missing. Deployment instructions via `<details>` blocks for Vercel, Railway, and local dev. Values never rendered. 404 tests, 24 files.
+
+**WU-014 — Navigation shell + first-run experience** (2026-05-25). Root layout (Server Component) loads Inter + JetBrains Mono fonts, renders persistent Sidebar (desktop) and MobileNav (mobile) Client Components, and a FirstRunBanner that counts missing `REQUIRED_ENV_VARS` and links to `/settings`. Stub pages at `/templates` and `/settings` close the nav. All four pages export `<title>` metadata. 388 tests, 23 files.
+
 **WU-011 — Send Log Dashboard UI** (2026-05-25). `GET /` — async Server Component fetches last 200 send-log rows, maps to serialisable view-model, renders `<LogTable>` Client Component. Client-side filtering (category + status dropdowns, pure `filterSendLogRows` fn). Failed rows expand via chevron button (`aria-expanded`, `aria-controls`, Escape-to-collapse). `aria-live="polite"` on `<tbody>` for screen-reader filter announcements. DB error shows `role="alert"` banner, no raw error text. Empty state links to `/test-send`. 32 new tests, 355 total passing.
 
 **WU-010 — Config Health Check UI** (2026-05-25). `GET /health` — self-contained HTML page (no JS), Bearer-token auth (401 with no env details on bad key), shows all 13 required env vars as ✅/❌, routing table (category→provider), amber sandbox warning if `SES_SANDBOX_MODE=true`. Inline CSS, `cache-control: no-store`, XSS-escaped. 37 new tests, 323 total passing.
 
 ## What is next
 
-Deploy to Vercel:
-1. Push repo to GitHub
-2. Import project in Vercel dashboard
-3. Add all 13 env vars (from `.env.example`) in Vercel → Settings → Environment Variables
-4. Run `npx drizzle-kit migrate` against the production Neon DB
-5. Verify at `GET /health` with `Authorization: Bearer <MAILER_API_KEY>`
+Run `/build-wu 013` to migrate incontact from Postmark to oss-mailer. Also: apply `drizzle/0001_email_templates.sql` migration to production Neon DB (`npm run db:migrate`), and wire `getTemplateOverride` into `src/app/api/send/route.ts` to activate DB overrides in the send pipeline.
 
 ## Open questions blocking progress
 
@@ -82,6 +83,11 @@ None blocking. Q001 resolved → D002.
 | [WU-009 — Test Send UI](docs/build/work-units/done/009-test-send-ui.md) | ✅ shipped | — |
 | [WU-010 — Config Health Check UI](docs/build/work-units/done/010-config-health-check-ui.md) | ✅ shipped | — |
 | [WU-011 — Send Log Dashboard UI](docs/build/work-units/done/011-send-log-dashboard-ui.md) | ✅ shipped | — |
+| [WU-012 — npm package + client SDK](docs/build/work-units/done/012-npm-package-client.md) | ✅ shipped | — |
+| [WU-013 — incontact migration](docs/build/work-units/013-incontact-migration.md) | 🔵 proposed | After WU-012 |
+| [WU-014 — Navigation shell + first-run experience](docs/build/work-units/done/014-nav-shell-first-run.md) | ✅ shipped | — |
+| [WU-015 — Settings page](docs/build/work-units/done/015-settings-page.md) | ✅ shipped | — |
+| [WU-016 — Template management UI](docs/build/work-units/done/016-template-management-ui.md) | ✅ shipped | — |
 
 ## How to read this file
 
