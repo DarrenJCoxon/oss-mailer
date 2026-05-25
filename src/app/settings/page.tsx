@@ -37,7 +37,7 @@ export default function SettingsPage() {
         </h2>
         <div className="rounded-lg border border-gray-200 dark:border-[#2E3244] bg-white dark:bg-[#1A1D2E] px-4">
           {providerVars.map((v) => (
-            <VarRow key={v.key} {...v} />
+            <VarRow key={v.key} varKey={v.key} description={v.description} example={v.example} set={v.set} required={v.required} />
           ))}
         </div>
       </section>
@@ -48,7 +48,7 @@ export default function SettingsPage() {
         </h2>
         <div className="rounded-lg border border-gray-200 dark:border-[#2E3244] bg-white dark:bg-[#1A1D2E] px-4">
           {securityVars.map((v) => (
-            <VarRow key={v.key} {...v} />
+            <VarRow key={v.key} varKey={v.key} description={v.description} example={v.example} set={v.set} required={v.required} />
           ))}
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function SettingsPage() {
         </h2>
         <div className="rounded-lg border border-gray-200 dark:border-[#2E3244] bg-white dark:bg-[#1A1D2E] px-4">
           {queueVars.map((v) => (
-            <VarRow key={v.key} {...v} />
+            <VarRow key={v.key} varKey={v.key} description={v.description} example={v.example} set={v.set} required={v.required} />
           ))}
         </div>
       </section>
@@ -102,14 +102,14 @@ export default function SettingsPage() {
 }
 
 type VarRowProps = {
-  key: string
+  varKey: string
   description: string
   example?: string
   set: boolean
   required: boolean
 }
 
-function VarRow({ key: varKey, description, example, set, required }: VarRowProps) {
+function VarRow({ varKey, description, example, set, required }: VarRowProps) {
   return (
     <div className="py-3 border-b border-gray-100 dark:border-[#2E3244] last:border-b-0">
       <div className="flex items-center justify-between gap-3">
