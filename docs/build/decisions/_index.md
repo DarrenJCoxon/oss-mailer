@@ -15,6 +15,8 @@ A **decision** is a choice that's been made and shouldn't drift. Once accepted, 
 | D007 | Email template derivable from category — `template` field dropped from API | ✅ accepted | 2026-05-24 |
 | D008 | Templates must meet deliverability standards (plain text, unsubscribe, no images) | ✅ accepted | 2026-05-24 |
 | D009 | Drizzle migration workflow: generate + migrate, not push | ✅ accepted | 2026-05-24 |
+| D010 | `createLogWriter()` factory lives in `src/send-log/index.ts` | ✅ accepted | 2026-05-25 |
+| D011 | Send Log Dashboard: client-side filtering of a single server-fetched page | ✅ accepted | 2026-05-25 |
 
 ## When to file a decision
 

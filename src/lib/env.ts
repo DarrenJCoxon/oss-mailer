@@ -1,4 +1,4 @@
-const REQUIRED_ENV_VARS = [
+export const REQUIRED_ENV_VARS = [
   'MAILER_API_KEY',
   'MAILER_FROM',
   'SES_ACCESS_KEY_ID',
@@ -11,6 +11,7 @@ const REQUIRED_ENV_VARS = [
   'QSTASH_TOKEN',
   'QSTASH_CURRENT_SIGNING_KEY',
   'QSTASH_NEXT_SIGNING_KEY',
+  'DELIVER_URL',
 ] as const
 
 export type RequiredEnvKey = (typeof REQUIRED_ENV_VARS)[number]

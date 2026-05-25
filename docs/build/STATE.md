@@ -2,7 +2,7 @@
 
 > This file is the snapshot read at the start of every session. If anything important about the project's current state is not here, it is not real. The end-of-session protocol updates this file every time work stops.
 
-**Last updated:** 2026-05-25 (WU-004 shipped — Template Renderer)
+**Last updated:** 2026-05-25 (WU-011 shipped — Send Log Dashboard UI — all Phase 1 work units complete)
 
 ## Planning progress
 
@@ -20,7 +20,7 @@ When you run `/start-of-session` on this fresh project, the AI will see this tra
 
 ## What is currently in flight
 
-WU-001 through WU-004 ✅ shipped. WU-005 (Mail Sender) is now unblocked by WU-002 + WU-003 + WU-004. WU-006 (Send Log backend) and WU-010 (Config Health UI) remain available in parallel.
+All Phase 1 work units (WU-001 through WU-011) ✅ shipped. Full send pipeline, browser test surface, config health page, and send log dashboard complete. Next: deploy to Vercel.
 
 ## Project description
 
@@ -28,11 +28,18 @@ A self-hosted email routing service that sits in front of cheap bulk providers (
 
 ## What just shipped
 
-**WU-004 — Template Renderer** (2026-05-25). `renderTemplate(category, props)` → `{ html, text }` via React Email static registry pattern. Three templates (`magic_link`, `promotional`, `update`) meeting D008 deliverability standards. `TemplateError`, `isTemplateError`. 40 tests, 110 total passing.
+**WU-011 — Send Log Dashboard UI** (2026-05-25). `GET /` — async Server Component fetches last 200 send-log rows, maps to serialisable view-model, renders `<LogTable>` Client Component. Client-side filtering (category + status dropdowns, pure `filterSendLogRows` fn). Failed rows expand via chevron button (`aria-expanded`, `aria-controls`, Escape-to-collapse). `aria-live="polite"` on `<tbody>` for screen-reader filter announcements. DB error shows `role="alert"` banner, no raw error text. Empty state links to `/test-send`. 32 new tests, 355 total passing.
+
+**WU-010 — Config Health Check UI** (2026-05-25). `GET /health` — self-contained HTML page (no JS), Bearer-token auth (401 with no env details on bad key), shows all 13 required env vars as ✅/❌, routing table (category→provider), amber sandbox warning if `SES_SANDBOX_MODE=true`. Inline CSS, `cache-control: no-store`, XSS-escaped. 37 new tests, 323 total passing.
 
 ## What is next
 
-Run `/build-wu WU-005` (Mail Sender — now fully unblocked), `/build-wu WU-006` (Send Log backend), or `/build-wu WU-010` (Config Health UI).
+Deploy to Vercel:
+1. Push repo to GitHub
+2. Import project in Vercel dashboard
+3. Add all 13 env vars (from `.env.example`) in Vercel → Settings → Environment Variables
+4. Run `npx drizzle-kit migrate` against the production Neon DB
+5. Verify at `GET /health` with `Authorization: Bearer <MAILER_API_KEY>`
 
 ## Open questions blocking progress
 
@@ -57,6 +64,8 @@ None blocking. Q001 resolved → D002.
 | D007 — Template derivable from category, `template` field dropped | ✅ accepted | 2026-05-24 |
 | D008 — Templates must meet deliverability standards | ✅ accepted | 2026-05-24 |
 | D009 — Drizzle generate+migrate workflow, not push | ✅ accepted | 2026-05-24 |
+| D010 — createLogWriter factory co-located in send-log/index.ts | ✅ accepted | 2026-05-25 |
+| D011 — Client-side filtering over URL-param server re-fetch for send log dashboard | ✅ accepted | 2026-05-25 |
 
 ## Active work units
 
@@ -66,13 +75,13 @@ None blocking. Q001 resolved → D002.
 | [WU-002 — EmailProvider interface + SES adapter](docs/build/work-units/done/002-email-provider-interface-ses-adapter.md) | ✅ shipped | — |
 | [WU-003 — Router](docs/build/work-units/done/003-router.md) | ✅ shipped | — |
 | [WU-004 — Template Renderer](docs/build/work-units/done/004-template-renderer.md) | ✅ shipped | — |
-| [WU-005 — Mail Sender](docs/build/work-units/005-mail-sender.md) | 🔵 proposed | After WU-002, 003, 004 |
-| [WU-006 — Send Log backend](docs/build/work-units/006-send-log-backend.md) | 🔵 proposed | After WU-001 |
-| [WU-007 — Queue](docs/build/work-units/007-queue.md) | 🔵 proposed | After WU-005 |
-| [WU-008 — API endpoint](docs/build/work-units/008-api-endpoint.md) | 🔵 proposed | After WU-005, 007 |
-| [WU-009 — Test Send UI](docs/build/work-units/009-test-send-ui.md) | 🔵 proposed | After WU-008 |
-| [WU-010 — Config Health Check UI](docs/build/work-units/010-config-health-check-ui.md) | 🔵 proposed | After WU-001 |
-| [WU-011 — Send Log Dashboard UI](docs/build/work-units/011-send-log-dashboard-ui.md) | 🔵 proposed | After WU-006, 008 |
+| [WU-005 — Mail Sender](docs/build/work-units/done/005-mail-sender.md) | ✅ shipped | — |
+| [WU-006 — Send Log backend](docs/build/work-units/done/006-send-log-backend.md) | ✅ shipped | — |
+| [WU-007 — Queue](docs/build/work-units/done/007-queue.md) | ✅ shipped | — |
+| [WU-008 — API endpoint](docs/build/work-units/done/008-api-endpoint.md) | ✅ shipped | — |
+| [WU-009 — Test Send UI](docs/build/work-units/done/009-test-send-ui.md) | ✅ shipped | — |
+| [WU-010 — Config Health Check UI](docs/build/work-units/done/010-config-health-check-ui.md) | ✅ shipped | — |
+| [WU-011 — Send Log Dashboard UI](docs/build/work-units/done/011-send-log-dashboard-ui.md) | ✅ shipped | — |
 
 ## How to read this file
 

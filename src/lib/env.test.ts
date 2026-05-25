@@ -14,6 +14,7 @@ const ALL_VARS = [
   'QSTASH_TOKEN',
   'QSTASH_CURRENT_SIGNING_KEY',
   'QSTASH_NEXT_SIGNING_KEY',
+  'DELIVER_URL',
 ] as const
 
 let saved: Partial<Record<string, string>> = {}

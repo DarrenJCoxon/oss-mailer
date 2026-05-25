@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["./nuos.md"],
+  "tools": {
+    "websearch": false,
+    "repo_clone": false,
+    "repo_overview": false,
+    "lsp": false
+  }
+}

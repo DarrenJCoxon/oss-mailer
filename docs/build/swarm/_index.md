@@ -12,6 +12,13 @@ This is **load-bearing for cost auditability** — if you ever wonder "is the sw
 | 2026-05-24 | [WU-002 — EmailProvider interface + SES adapter](2026-05-24-wu-002.md) | APPROVED ✅ | ~$0.79 |
 | 2026-05-24 | [WU-003 — Router](2026-05-24-wu-003.md) | APPROVED ✅ | ~$0.47 |
 | 2026-05-25 | [WU-004 — Template Renderer](2026-05-25-wu-004.md) | APPROVED ✅ | ~$0.58 |
+| 2026-05-25 | [WU-005 — Mail Sender](2026-05-25-wu-005.md) | APPROVED ✅ | ~$0.65 |
+| 2026-05-25 | [WU-006 — Send Log backend](2026-05-25-wu-006.md) | APPROVED ✅ | ~$0.75 |
+| 2026-05-25 | [WU-007 — Queue](2026-05-25-wu-007.md) | APPROVED ✅ | ~$1.90 |
+| 2026-05-25 | [WU-008 — API endpoint](2026-05-25-wu-008.md) | APPROVED ✅ | ~$1.75 |
+| 2026-05-25 | [WU-009 — Test Send UI](2026-05-25-wu-009.md) | APPROVED ✅ | ~$1.55 |
+| 2026-05-25 | [WU-010 — Config Health Check UI](2026-05-25-wu-010.md) | APPROVED ✅ | ~$1.25 |
+| 2026-05-25 | [WU-011 — Send Log Dashboard UI](2026-05-25-wu-011.md) | APPROVED ✅ | ~$1.38 |
 
 ## What a swarm run captures
 
