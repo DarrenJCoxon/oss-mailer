@@ -5,6 +5,10 @@ import { emailTemplates } from '@/db/schema'
 
 export const metadata: Metadata = { title: 'Templates — oss-mailer' }
 
+// Reads live DB state (which templates are customised). Must render per-request,
+// not be statically prerendered at build time.
+export const dynamic = 'force-dynamic'
+
 const CATEGORIES = [
   { key: 'magic_link', label: 'Magic link', description: 'Sent when a user requests a sign-in link.' },
   { key: 'promotional', label: 'Promotional', description: 'Bulk promotional emails to your users.' },

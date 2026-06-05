@@ -3,6 +3,10 @@ import { buildSettingsReport } from '@/settings'
 
 export const metadata: Metadata = { title: 'Settings — oss-mailer' }
 
+// Reflects runtime environment variables. Must render per-request so the page
+// shows the current deployment's env, not a build-time snapshot.
+export const dynamic = 'force-dynamic'
+
 export default function SettingsPage() {
   const report = buildSettingsReport(process.env as Record<string, string | undefined>)
   const { vars, totalCount, setCount, missingCount } = report
