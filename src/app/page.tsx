@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: 'Send log — oss-mailer',
 }
 
+// The send log reflects live database state — never serve a statically
+// prerendered/cached snapshot. Without this, Next.js prerenders the page at
+// build time and Vercel serves a frozen send log indefinitely.
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   let rows
   try {
