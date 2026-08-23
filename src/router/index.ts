@@ -1,7 +1,7 @@
 import type { EmailProvider } from '../providers/interface'
 import { createSesAdapter } from '../providers/ses'
 
-export type EmailCategory = 'magic_link' | 'promotional' | 'update'
+export type EmailCategory = 'magic_link' | 'transactional' | 'promotional' | 'update'
 
 export type RouterErrorCode = 'UNKNOWN_CATEGORY' | 'PROVIDER_NOT_CONFIGURED'
 
@@ -41,6 +41,7 @@ const PROVIDERS = {
 
 const ENV_VAR_BY_CATEGORY: Record<EmailCategory, string> = {
   magic_link: 'MAGIC_LINK_PROVIDER',
+  transactional: 'TRANSACTIONAL_PROVIDER',
   promotional: 'PROMOTIONAL_PROVIDER',
   update: 'UPDATE_PROVIDER',
 }
@@ -53,12 +54,15 @@ export function createRouter(): { resolve: (category: EmailCategory) => EmailPro
   for (const category of KNOWN_CATEGORIES) {
     const varName = ENV_VAR_BY_CATEGORY[category]
     const providerId = process.env[varName]
+      ?? (category === 'transactional' ? process.env.MAGIC_LINK_PROVIDER : undefined)
 
     if (!providerId) {
       throw new RouterError({
         code: 'PROVIDER_NOT_CONFIGURED',
         category,
-        message: `${varName} is not set`,
+        message: category === 'transactional'
+          ? `${varName} and MAGIC_LINK_PROVIDER are not set`
+          : `${varName} is not set`,
       })
     }
 

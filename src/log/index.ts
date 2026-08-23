@@ -10,7 +10,7 @@ export type SendLogRow = {
   durationMs: number
 }
 
-export type CategoryFilter = 'all' | 'magic_link' | 'promotional' | 'update'
+export type CategoryFilter = 'all' | 'magic_link' | 'transactional' | 'promotional' | 'update'
 export type StatusFilter = 'all' | 'sent' | 'failed'
 
 export type LogFilters = {
@@ -23,6 +23,7 @@ export const DEFAULT_LOG_LIMIT = 200
 export const CATEGORY_FILTER_OPTIONS: ReadonlyArray<{ value: CategoryFilter; label: string }> = [
   { value: 'all', label: 'All categories' },
   { value: 'magic_link', label: 'magic_link' },
+  { value: 'transactional', label: 'transactional' },
   { value: 'promotional', label: 'promotional' },
   { value: 'update', label: 'update' },
 ]

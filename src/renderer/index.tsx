@@ -4,6 +4,7 @@ import type { EmailCategory } from '../router'
 import MagicLinkEmail from '../templates/magic-link'
 import PromotionalEmail from '../templates/promotional'
 import UpdateEmail from '../templates/update'
+import TransactionalEmail from '../templates/transactional'
 
 export type TemplateErrorCode = 'UNKNOWN_TEMPLATE' | 'RENDER_FAILED'
 
@@ -39,6 +40,9 @@ export function isTemplateError(e: unknown): e is TemplateError {
 
 const TEMPLATES = {
   magic_link: (props: { url: string }) => <MagicLinkEmail {...props} />,
+  transactional: (props: { subject: string; body: string }) => (
+    <TransactionalEmail {...props} />
+  ),
   promotional: (props: { subject: string; body: string; unsubscribeUrl: string }) => (
     <PromotionalEmail {...props} />
   ),

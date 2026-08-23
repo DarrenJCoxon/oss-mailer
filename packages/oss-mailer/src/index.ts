@@ -1,10 +1,13 @@
-export type EmailCategory = 'magic_link' | 'promotional' | 'update'
+export type EmailCategory = 'magic_link' | 'transactional' | 'promotional' | 'update'
 
 export type SendMailInput = {
   category: EmailCategory
   to: string
   subject: string
   props?: Record<string, unknown>
+  replyTo?: string
+  /** Required by the calling application for promotional and update mail. */
+  unsubscribeUrl?: string
 }
 
 export type SendMailResult =
@@ -89,7 +92,10 @@ export function createMailerClient(config: {
             category: input.category,
             to: input.to,
             subject: input.subject,
-            props: input.props,
+            props: input.unsubscribeUrl
+              ? { ...input.props, unsubscribeUrl: input.unsubscribeUrl }
+              : input.props,
+            replyTo: input.replyTo,
           }),
         })
       } catch (cause) {

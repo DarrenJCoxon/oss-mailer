@@ -13,6 +13,7 @@ export type SettingsVar = {
 const SETTINGS_VARS: SettingsVar[] = [
   // Provider configuration
   { key: 'MAGIC_LINK_PROVIDER', group: 'provider', description: 'Which provider handles magic link / transactional emails', example: 'ses', required: true },
+  { key: 'TRANSACTIONAL_PROVIDER', group: 'provider', description: 'Optional provider for transactional sends; falls back to MAGIC_LINK_PROVIDER', example: 'ses', required: false },
   { key: 'PROMOTIONAL_PROVIDER', group: 'provider', description: 'Which provider handles promotional sends', example: 'ses', required: true },
   { key: 'UPDATE_PROVIDER', group: 'provider', description: 'Which provider handles update / notification sends', example: 'ses', required: true },
   { key: 'MAILER_FROM', group: 'provider', description: 'The "from" address for all outgoing mail', example: 'noreply@yourapp.com', required: true },

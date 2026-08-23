@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { saveTemplateAction, resetTemplateAction } from './actions'
 
-type ValidCategory = 'magic_link' | 'promotional' | 'update'
+type ValidCategory = 'magic_link' | 'transactional' | 'promotional' | 'update'
 
 type Props = {
   category: ValidCategory

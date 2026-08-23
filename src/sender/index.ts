@@ -51,6 +51,7 @@ export type SendRequest = {
   to: string
   subject: string
   props?: Record<string, unknown>
+  replyTo?: string
 }
 
 const UNSUBSCRIBE_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
@@ -94,6 +95,7 @@ export function createMailSender(
       subject,
       html,
       text,
+      ...(req.replyTo ? { replyTo: req.replyTo } : {}),
       ...(headers ? { headers } : {}),
     })
 

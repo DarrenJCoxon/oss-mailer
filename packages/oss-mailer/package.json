@@ -1,6 +1,6 @@
 {
   "name": "oss-mailer",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Client SDK for the oss-mailer self-hosted email routing service",
   "license": "MIT",
   "type": "module",
@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {},
   "devDependencies": {
@@ -36,6 +36,6 @@
   "keywords": ["email", "nextauth", "magic-link", "ses", "transactional"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/<owner>/mailer"
+    "url": "https://github.com/DarrenJCoxon/oss-mailer.git"
   }
 }
