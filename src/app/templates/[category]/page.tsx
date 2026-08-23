@@ -6,11 +6,12 @@ import { emailTemplates } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { TemplateEditor } from './TemplateEditor'
 
-const VALID_CATEGORIES = ['magic_link', 'promotional', 'update'] as const
+const VALID_CATEGORIES = ['magic_link', 'transactional', 'promotional', 'update'] as const
 type ValidCategory = (typeof VALID_CATEGORIES)[number]
 
 const CATEGORY_LABELS: Record<ValidCategory, string> = {
   magic_link: 'Magic link',
+  transactional: 'Transactional',
   promotional: 'Promotional',
   update: 'Update',
 }

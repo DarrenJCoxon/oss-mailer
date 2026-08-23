@@ -70,16 +70,23 @@ describe('buildHealthReport — AC-1: report shape', () => {
     expect(reportKeys).toEqual(Array.from(REQUIRED_ENV_VARS))
   })
 
-  it('routing has exactly 3 rows', () => {
+  it('routing has exactly 4 rows', () => {
     const report = buildHealthReport(makeEnv())
-    expect(report.routing).toHaveLength(3)
+    expect(report.routing).toHaveLength(4)
   })
 
-  it('routing rows are in order: magic_link, promotional, update', () => {
+  it('routing rows are in order: magic_link, transactional, promotional, update', () => {
     const report = buildHealthReport(makeEnv())
     expect(report.routing[0].category).toBe('magic_link')
-    expect(report.routing[1].category).toBe('promotional')
-    expect(report.routing[2].category).toBe('update')
+    expect(report.routing[1].category).toBe('transactional')
+    expect(report.routing[2].category).toBe('promotional')
+    expect(report.routing[3].category).toBe('update')
+  })
+
+  it('shows the magic-link provider as the transactional fallback', () => {
+    const report = buildHealthReport(makeEnv({ TRANSACTIONAL_PROVIDER: undefined }))
+
+    expect(report.routing[1].provider).toBe('ses')
   })
 
   it('sandboxMode is a boolean', () => {

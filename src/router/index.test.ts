@@ -96,6 +96,23 @@ describe("router.resolve('update') — AC-3", () => {
   })
 })
 
+describe("router.resolve('transactional')", () => {
+  it('falls back to the magic-link provider for backwards-compatible deployments', () => {
+    setEnv(ALL_SES_ENV)
+    delete process.env.TRANSACTIONAL_PROVIDER
+
+    const router = createRouter()
+
+    expect(router.resolve('transactional').name).toBe('ses')
+  })
+
+  it('uses TRANSACTIONAL_PROVIDER when configured', () => {
+    setEnv({ ...ALL_SES_ENV, TRANSACTIONAL_PROVIDER: 'ses' })
+
+    expect(createRouter().resolve('transactional').name).toBe('ses')
+  })
+})
+
 // ─── AC-4: unknown category throws UNKNOWN_CATEGORY ──────────────────────
 
 describe("unknown category — AC-4", () => {

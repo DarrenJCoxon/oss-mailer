@@ -8,8 +8,8 @@ export type EnvVarStatus = {
 }
 
 export type RoutingRow = {
-  category: 'magic_link' | 'promotional' | 'update'
-  envVar: 'MAGIC_LINK_PROVIDER' | 'PROMOTIONAL_PROVIDER' | 'UPDATE_PROVIDER'
+  category: 'magic_link' | 'transactional' | 'promotional' | 'update'
+  envVar: 'MAGIC_LINK_PROVIDER' | 'TRANSACTIONAL_PROVIDER' | 'PROMOTIONAL_PROVIDER' | 'UPDATE_PROVIDER'
   provider: string | null
 }
 
@@ -26,6 +26,7 @@ export type HealthHandlerDeps = {
 
 const ROUTING_ROWS = [
   { category: 'magic_link',  envVar: 'MAGIC_LINK_PROVIDER' },
+  { category: 'transactional', envVar: 'TRANSACTIONAL_PROVIDER' },
   { category: 'promotional', envVar: 'PROMOTIONAL_PROVIDER' },
   { category: 'update',      envVar: 'UPDATE_PROVIDER' },
 ] as const
@@ -48,7 +49,9 @@ export function buildHealthReport(env: EnvSnapshot): HealthReport {
   const routing: RoutingRow[] = ROUTING_ROWS.map((row) => ({
     category: row.category,
     envVar: row.envVar,
-    provider: env[row.envVar]?.trim() || null,
+    provider: env[row.envVar]?.trim()
+      || (row.category === 'transactional' ? env.MAGIC_LINK_PROVIDER?.trim() : undefined)
+      || null,
   }))
 
   const sandboxMode = env.SES_SANDBOX_MODE === 'true'

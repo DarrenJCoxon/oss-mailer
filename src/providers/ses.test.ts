@@ -129,6 +129,15 @@ describe('send() standard path (AC-4)', () => {
     // sentAt must be a valid ISO-8601 timestamp
     expect(new Date(result.sentAt).toISOString()).toBe(result.sentAt)
   })
+
+  it('passes Reply-To through the standard SES command', async () => {
+    const adapter = createSesAdapter(VALID_CONFIG)
+
+    await adapter.send({ ...BASE_REQUEST, replyTo: 'sender@example.com' })
+
+    const commandArg = getMockSend().mock.calls[0][0]
+    expect(commandArg.input.ReplyToAddresses).toEqual(['sender@example.com'])
+  })
 })
 
 // ─── AC-5 ────────────────────────────────────────────────────────────────────

@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic'
 
 const CATEGORIES = [
   { key: 'magic_link', label: 'Magic link', description: 'Sent when a user requests a sign-in link.' },
+  { key: 'transactional', label: 'Transactional', description: 'Contact forms, receipts and operational messages.' },
   { key: 'promotional', label: 'Promotional', description: 'Bulk promotional emails to your users.' },
   { key: 'update', label: 'Update', description: 'Product updates and notifications.' },
 ] as const

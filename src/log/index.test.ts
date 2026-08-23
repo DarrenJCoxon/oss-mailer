@@ -176,8 +176,8 @@ describe('filterSendLogRows', () => {
 // ─── Section 4: Filter option arrays ──────────────────────────────────────────
 
 describe('CATEGORY_FILTER_OPTIONS', () => {
-  it('has exactly 4 entries', () => {
-    expect(CATEGORY_FILTER_OPTIONS).toHaveLength(4)
+  it('has exactly 5 entries', () => {
+    expect(CATEGORY_FILTER_OPTIONS).toHaveLength(5)
   })
 
   it('first entry has value: "all"', () => {
@@ -186,6 +186,10 @@ describe('CATEGORY_FILTER_OPTIONS', () => {
 
   it('includes an entry for "magic_link"', () => {
     expect(CATEGORY_FILTER_OPTIONS.some((o) => o.value === 'magic_link')).toBe(true)
+  })
+
+  it('includes an entry for "transactional"', () => {
+    expect(CATEGORY_FILTER_OPTIONS.some((o) => o.value === 'transactional')).toBe(true)
   })
 
   it('includes an entry for "promotional"', () => {

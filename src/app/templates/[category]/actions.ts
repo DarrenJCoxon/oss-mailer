@@ -4,7 +4,7 @@ import { db } from '@/db'
 import { saveTemplate, resetTemplate } from '@/template-store'
 import type { EmailCategory } from '@/router'
 
-const VALID_CATEGORIES = new Set(['magic_link', 'promotional', 'update'])
+const VALID_CATEGORIES = new Set(['magic_link', 'transactional', 'promotional', 'update'])
 
 export async function saveTemplateAction(
   category: string,

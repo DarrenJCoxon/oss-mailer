@@ -7,6 +7,8 @@ export type ProviderSendRequest = {
   subject: string
   html: string
   text: string
+  /** Optional address used when the recipient replies. */
+  replyTo?: string
   /** Optional headers forwarded verbatim to the provider (e.g. List-Unsubscribe). */
   headers?: Record<string, string>
 }

@@ -4,8 +4,14 @@ import type { EmailCategory } from '../../router'
 
 const KNOWN_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
   'magic_link',
+  'transactional',
   'promotional',
   'update',
+])
+
+const SYNCHRONOUS_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
+  'magic_link',
+  'transactional',
 ])
 
 export type ValidationFailure = { field: string; reason: string }
@@ -24,12 +30,17 @@ export function validateSendRequest(
     fields.push({ field: 'category', reason: 'must be a string' })
   }
 
-  if (typeof r.to !== 'string' || r.to.length === 0) {
-    fields.push({ field: 'to', reason: 'must be a non-empty string' })
+  if (typeof r.to !== 'string' || !isSafeEmailAddress(r.to)) {
+    fields.push({ field: 'to', reason: 'must be a valid email address' })
   }
 
-  if (typeof r.subject !== 'string' || r.subject.length === 0) {
-    fields.push({ field: 'subject', reason: 'must be a non-empty string' })
+  if (
+    typeof r.subject !== 'string' ||
+    r.subject.length === 0 ||
+    r.subject.length > 200 ||
+    /[\r\n]/.test(r.subject)
+  ) {
+    fields.push({ field: 'subject', reason: 'must be 1-200 characters without line breaks' })
   }
 
   if (
@@ -37,6 +48,23 @@ export function validateSendRequest(
     (typeof r.props !== 'object' || r.props === null || Array.isArray(r.props))
   ) {
     fields.push({ field: 'props', reason: 'must be an object if provided' })
+  }
+
+  if (
+    r.replyTo !== undefined &&
+    (typeof r.replyTo !== 'string' || !isSafeEmailAddress(r.replyTo))
+  ) {
+    fields.push({ field: 'replyTo', reason: 'must be a valid email address if provided' })
+  }
+
+  if (
+    (r.category === 'promotional' || r.category === 'update') &&
+    !isSafeHttpUrl((r.props as Record<string, unknown> | undefined)?.unsubscribeUrl)
+  ) {
+    fields.push({
+      field: 'props.unsubscribeUrl',
+      reason: 'must be an absolute HTTP(S) URL for promotional and update mail',
+    })
   }
 
   if (fields.length > 0) return { ok: false, fields }
@@ -48,6 +76,7 @@ export function validateSendRequest(
       to: r.to as string,
       subject: r.subject as string,
       props: r.props as Record<string, unknown> | undefined,
+      replyTo: r.replyTo as string | undefined,
     },
   }
 }
@@ -95,7 +124,7 @@ export function createSendHandler(deps: {
       return jsonResponse({ error: 'UNKNOWN_CATEGORY', category: body.category }, 400)
     }
 
-    if (body.category === 'magic_link') {
+    if (SYNCHRONOUS_CATEGORIES.has(body.category)) {
       let result: SendResult
       try {
         result = await deps.mailSender.send(body)
@@ -141,6 +170,24 @@ export function createSendHandler(deps: {
         500,
       )
     }
+  }
+}
+
+function isSafeEmailAddress(value: string): boolean {
+  return value.length <= 254
+    && !/[\r\n]/.test(value)
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function isSafeHttpUrl(value: unknown): boolean {
+  if (typeof value !== 'string' || /[\r\n]/.test(value)) return false
+  try {
+    const url = new URL(value)
+    return (url.protocol === 'https:' || url.protocol === 'http:')
+      && !url.username
+      && !url.password
+  } catch {
+    return false
   }
 }
 

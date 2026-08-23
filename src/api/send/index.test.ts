@@ -134,6 +134,27 @@ describe('validateSendRequest — AC-VAL-7: empty string to', () => {
   })
 })
 
+describe('validateSendRequest — safe mail headers', () => {
+  it.each([
+    'not-an-email',
+    'recipient@example.com\r\nBcc: attacker@example.com',
+  ])('rejects unsafe recipient value %s', (to) => {
+    const result = validateSendRequest({ category: 'magic_link', to, subject: 'Hi' })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields.map((field) => field.field)).toContain('to')
+  })
+
+  it('rejects line breaks in a subject', () => {
+    const result = validateSendRequest({
+      category: 'magic_link',
+      to: 'user@example.com',
+      subject: 'Hello\r\nBcc: attacker@example.com',
+    })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields.map((field) => field.field)).toContain('subject')
+  })
+})
+
 describe('validateSendRequest — AC-VAL-8: missing subject', () => {
   it('returns a field error for subject when it is absent', () => {
     const result = validateSendRequest({ category: 'magic_link', to: 'user@example.com' })
@@ -204,6 +225,72 @@ describe('validateSendRequest — AC-VAL-12: multiple missing fields', () => {
     expect(fieldNames).toContain('category')
     expect(fieldNames).toContain('to')
     expect(fieldNames).toContain('subject')
+  })
+})
+
+describe('validateSendRequest — transactional reply routing', () => {
+  it('accepts a safe Reply-To address', () => {
+    const result = validateSendRequest({
+      category: 'transactional',
+      to: 'support@example.com',
+      subject: 'New enquiry',
+      replyTo: 'sender@example.com',
+      props: { html: '<p>Hello</p>' },
+    })
+
+    expect(result.ok).toBe(true)
+    if (result.ok) expect(result.data.replyTo).toBe('sender@example.com')
+  })
+
+  it.each(['not-an-email', 'sender@example.com\r\nBcc: attacker@example.com']) (
+    'rejects unsafe Reply-To value %s',
+    (replyTo) => {
+      const result = validateSendRequest({
+        category: 'transactional',
+        to: 'support@example.com',
+        subject: 'New enquiry',
+        replyTo,
+      })
+
+      expect(result.ok).toBe(false)
+      if (!result.ok) expect(result.fields.map((field) => field.field)).toContain('replyTo')
+    },
+  )
+})
+
+describe('validateSendRequest — marketing unsubscribe safety', () => {
+  it.each(['promotional', 'update'] as const)(
+    'requires an HTTP(S) unsubscribe URL for %s mail',
+    (category) => {
+      const missing = validateSendRequest({
+        category,
+        to: 'subscriber@example.com',
+        subject: 'News',
+        props: { html: '<p>Hello</p>' },
+      })
+      expect(missing.ok).toBe(false)
+      if (!missing.ok) {
+        expect(missing.fields.map((field) => field.field)).toContain('props.unsubscribeUrl')
+      }
+
+      const unsafe = validateSendRequest({
+        category,
+        to: 'subscriber@example.com',
+        subject: 'News',
+        props: { unsubscribeUrl: 'javascript:alert(1)' },
+      })
+      expect(unsafe.ok).toBe(false)
+    },
+  )
+
+  it('accepts a safe unsubscribe URL', () => {
+    const result = validateSendRequest({
+      category: 'promotional',
+      to: 'subscriber@example.com',
+      subject: 'News',
+      props: { unsubscribeUrl: 'https://example.com/unsubscribe/token' },
+    })
+    expect(result.ok).toBe(true)
   })
 })
 
@@ -414,6 +501,30 @@ describe('createSendHandler — AC-7: magic_link success path', () => {
   })
 })
 
+describe('createSendHandler — transactional delivery', () => {
+  it('sends transactional email synchronously and preserves Reply-To', async () => {
+    fakeMailSender.send.mockResolvedValue({
+      success: true,
+      messageId: 'contact-1',
+      provider: 'ses',
+      sentAt: '2026-01-01T00:00:00.000Z',
+    })
+    const body = {
+      category: 'transactional',
+      to: 'support@example.com',
+      subject: 'New enquiry',
+      replyTo: 'sender@example.com',
+      props: { html: '<p>Hello</p>' },
+    }
+
+    const response = await handler(makeReq(body, `Bearer ${apiKey}`))
+
+    expect(response.status).toBe(200)
+    expect(fakeMailSender.send).toHaveBeenCalledWith(body)
+    expect(fakeQueue.enqueue).not.toHaveBeenCalled()
+  })
+})
+
 describe('createSendHandler — AC-7: magic_link send failure (success: false)', () => {
   it('returns 500 SEND_FAILED when mailSender.send returns success: false', async () => {
     fakeMailSender.send.mockResolvedValue({
@@ -453,7 +564,12 @@ describe('createSendHandler — AC-7: promotional success path', () => {
   it('returns 202 with queued: true and jobId for promotional category', async () => {
     fakeQueue.enqueue.mockResolvedValue({ jobId: 'job-1' })
     const req = makeReq(
-      { category: 'promotional', to: 'u@example.com', subject: 'Newsletter' },
+      {
+        category: 'promotional',
+        to: 'u@example.com',
+        subject: 'Newsletter',
+        props: { unsubscribeUrl: 'https://example.com/unsubscribe/token' },
+      },
       `Bearer ${apiKey}`,
     )
     const res = await handler(req)
@@ -468,7 +584,12 @@ describe('createSendHandler — AC-7: promotional enqueue throws', () => {
   it('returns 500 QUEUE_FAILED when queue.enqueue throws', async () => {
     fakeQueue.enqueue.mockRejectedValue(new Error('queue unavailable'))
     const req = makeReq(
-      { category: 'promotional', to: 'u@example.com', subject: 'Newsletter' },
+      {
+        category: 'promotional',
+        to: 'u@example.com',
+        subject: 'Newsletter',
+        props: { unsubscribeUrl: 'https://example.com/unsubscribe/token' },
+      },
       `Bearer ${apiKey}`,
     )
     const res = await handler(req)
@@ -483,7 +604,12 @@ describe('createSendHandler — AC-7: update category success path', () => {
   it('returns 202 with queued: true and jobId for update category', async () => {
     fakeQueue.enqueue.mockResolvedValue({ jobId: 'job-2' })
     const req = makeReq(
-      { category: 'update', to: 'u@example.com', subject: 'Product update' },
+      {
+        category: 'update',
+        to: 'u@example.com',
+        subject: 'Product update',
+        props: { unsubscribeUrl: 'https://example.com/unsubscribe/token' },
+      },
       `Bearer ${apiKey}`,
     )
     const res = await handler(req)

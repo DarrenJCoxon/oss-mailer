@@ -110,6 +110,37 @@ describe('sendMail request shape', () => {
     })
     expect(Object.keys(parsedBody).sort()).toEqual(['category', 'props', 'subject', 'to'])
   })
+
+  it('includes Reply-To for transactional messages', async () => {
+    const mockFetch = makeFetch(200, { success: true, messageId: 'm1', provider: 'ses', sentAt: '2024-01-01T00:00:00Z' })
+    const client = createMailerClient({ url: VALID_URL, apiKey: VALID_KEY, fetch: mockFetch })
+
+    await client.sendMail({
+      ...BASIC_INPUT,
+      category: 'transactional',
+      replyTo: 'sender@example.com',
+    })
+
+    const calledInit = (mockFetch as ReturnType<typeof vi.fn>).mock.calls[0][1] as RequestInit
+    expect(JSON.parse(calledInit.body as string).replyTo).toBe('sender@example.com')
+  })
+
+  it('adds the unsubscribe URL to queued marketing props', async () => {
+    const mockFetch = makeFetch(202, { queued: true, jobId: 'job-1' })
+    const client = createMailerClient({ url: VALID_URL, apiKey: VALID_KEY, fetch: mockFetch })
+
+    await client.sendMail({
+      ...BASIC_INPUT,
+      category: 'promotional',
+      unsubscribeUrl: 'https://example.com/unsubscribe/token',
+    })
+
+    const calledInit = (mockFetch as ReturnType<typeof vi.fn>).mock.calls[0][1] as RequestInit
+    expect(JSON.parse(calledInit.body as string).props).toEqual({
+      ...BASIC_INPUT.props,
+      unsubscribeUrl: 'https://example.com/unsubscribe/token',
+    })
+  })
 })
 
 // ─── (g)-(h) happy paths ─────────────────────────────────────────────────────
@@ -328,19 +359,22 @@ describe('MailerError class', () => {
 
 describe('contract parity with validateSendRequest', () => {
   it('(t) a typical SendMailInput passes validateSendRequest with ok: true', async () => {
-    const { validateSendRequest } = await import('../../../src/api/send/index.ts')
+    const { validateSendRequest } = await import('../../../src/api/send/index.js')
     const input = {
       category: 'update',
       to: 'user@example.com',
       subject: 'Test subject',
-      props: { html: '<div>hello</div>' },
+      props: {
+        html: '<div>hello</div>',
+        unsubscribeUrl: 'https://example.com/unsubscribe/token',
+      },
     }
     const result = validateSendRequest(input)
     expect(result.ok).toBe(true)
   })
 
   it('(t) SendMailInput without props also passes validateSendRequest', async () => {
-    const { validateSendRequest } = await import('../../../src/api/send/index.ts')
+    const { validateSendRequest } = await import('../../../src/api/send/index.js')
     const input = {
       category: 'magic_link',
       to: 'user@example.com',

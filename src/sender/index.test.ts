@@ -81,6 +81,26 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
+describe('send() transactional metadata', () => {
+  it('forwards Reply-To to the provider without an unsubscribe header', async () => {
+    const adapter = makeAdapter(makeSuccessResult())
+    const sender = createMailSender(makeRouter(adapter) as never, makeLogWriter())
+
+    await sender.send({
+      category: 'transactional',
+      to: 'support@example.com',
+      subject: 'New enquiry',
+      replyTo: 'sender@example.com',
+      props: { html: '<p>Hello</p>' },
+    })
+
+    expect(adapter.send).toHaveBeenCalledWith(expect.objectContaining({
+      replyTo: 'sender@example.com',
+    }))
+    expect(adapter.send.mock.calls[0][0].headers).toBeUndefined()
+  })
+})
+
 // ─── AC-1: happy path returns SendResult { success: true, ... } ─────────────
 
 describe('send() happy path — AC-1', () => {

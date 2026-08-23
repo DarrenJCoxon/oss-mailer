@@ -55,6 +55,7 @@ export function createSesAdapter(config?: {
         const mime = [
           `From: ${req.from}`,
           `To: ${req.to}`,
+          ...(req.replyTo ? [`Reply-To: ${req.replyTo}`] : []),
           `Subject: ${req.subject}`,
           'MIME-Version: 1.0',
           `List-Unsubscribe: ${listUnsubscribe}`,
@@ -97,6 +98,7 @@ export function createSesAdapter(config?: {
             },
           },
           Source: req.from,
+          ...(req.replyTo ? { ReplyToAddresses: [req.replyTo] } : {}),
         })
       )
       return {

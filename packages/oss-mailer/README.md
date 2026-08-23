@@ -1,6 +1,6 @@
 # oss-mailer
 
-Client SDK for the [oss-mailer](https://github.com/<owner>/mailer) self-hosted email routing service.
+Client SDK for the [oss-mailer](https://github.com/DarrenJCoxon/oss-mailer) self-hosted email routing service.
 
 ## Install
 
@@ -10,7 +10,7 @@ npm install oss-mailer
 
 ## Usage
 
-### Send a transactional email
+### Queue a product update
 
 ```ts
 import { createMailerClient } from 'oss-mailer'
@@ -24,6 +24,33 @@ await mailer.sendMail({
   category: 'update',
   to: 'user@example.com',
   subject: 'Your weekly digest',
+  props: { html: preRenderedHtml },
+})
+```
+
+### Send a transactional email
+
+```ts
+await mailer.sendMail({
+  category: 'transactional',
+  to: 'support@example.com',
+  replyTo: 'customer@example.com',
+  subject: 'New contact enquiry',
+  props: { html: preRenderedHtml },
+})
+```
+
+### Queue a promotional mailshot
+
+Audience selection, consent and campaign scheduling stay in your application. Send one
+personalised request per recipient; oss-mailer queues delivery and adds unsubscribe headers.
+
+```ts
+await mailer.sendMail({
+  category: 'promotional',
+  to: 'subscriber@example.com',
+  subject: 'What is new at Kompass',
+  unsubscribeUrl: 'https://example.com/email/preferences/unsubscribe?token=...',
   props: { html: preRenderedHtml },
 })
 ```
