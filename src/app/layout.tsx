@@ -4,6 +4,7 @@ import './globals.css'
 import { Sidebar } from './(shell)/Sidebar'
 import { MobileNav } from './(shell)/MobileNav'
 import { FirstRunBanner } from './(shell)/FirstRunBanner'
+import { AccountMenu } from './(shell)/AccountMenu'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MobileNav />
           <div className="flex-1 min-w-0">
             <FirstRunBanner />
+            <AccountMenu />
             {children}
           </div>
         </div>
