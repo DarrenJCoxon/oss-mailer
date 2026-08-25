@@ -4,6 +4,10 @@ import { REQUIRED_ENV_VARS } from '@/lib/env'
 
 function makeEnv(overrides: Record<string, string | undefined> = {}): Record<string, string | undefined> {
   return {
+    AUTH_SECRET: 'auth-secret',
+    AUTH_GOOGLE_ID: 'google-client-id',
+    AUTH_GOOGLE_SECRET: 'google-client-secret',
+    AUTH_ALLOWED_EMAILS: 'owner@example.com',
     MAGIC_LINK_PROVIDER: 'ses',
     PROMOTIONAL_PROVIDER: 'ses',
     UPDATE_PROVIDER: 'ses',
@@ -42,13 +46,13 @@ describe('buildSettingsReport', () => {
 
   it('returns correct totalCount (required vars only)', () => {
     const report = buildSettingsReport(makeEnv())
-    // 13 required vars (SES_SANDBOX_MODE is required: false)
-    expect(report.totalCount).toBe(13)
+    // 17 required vars (SES_SANDBOX_MODE is required: false)
+    expect(report.totalCount).toBe(17)
   })
 
   it('returns correct setCount', () => {
     const report = buildSettingsReport(makeEnv())
-    expect(report.setCount).toBe(13)
+    expect(report.setCount).toBe(17)
   })
 
   it('returns correct missingCount', () => {
@@ -72,7 +76,7 @@ describe('buildSettingsReport', () => {
     }
   })
 
-  // AC-2: All 13 required vars appear grouped into the three logical sections
+  // AC-2: All required vars appear grouped into the three logical sections
   it('contains vars in all three groups: provider, security, and queue', () => {
     const report = buildSettingsReport(makeEnv())
     const groups = new Set(report.vars.map((v) => v.group))
@@ -81,10 +85,10 @@ describe('buildSettingsReport', () => {
     expect(groups.has('queue')).toBe(true)
   })
 
-  it('has 13 required vars spread across provider, security, and queue', () => {
+  it('has required vars spread across provider, security, and queue', () => {
     const report = buildSettingsReport(makeEnv())
     const requiredVars = report.vars.filter((v) => v.required)
-    expect(requiredVars.length).toBe(13)
+    expect(requiredVars.length).toBe(17)
     const providerRequired = requiredVars.filter((v) => v.group === 'provider')
     const securityRequired = requiredVars.filter((v) => v.group === 'security')
     const queueRequired = requiredVars.filter((v) => v.group === 'queue')

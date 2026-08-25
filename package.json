@@ -22,6 +22,7 @@
     "@upstash/qstash": "^2.11.0",
     "drizzle-orm": "^0.43.1",
     "next": "^15",
+    "next-auth": "^5.0.0-beta.32",
     "react": "^19",
     "react-dom": "^19"
   },

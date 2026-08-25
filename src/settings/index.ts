@@ -11,6 +11,11 @@ export type SettingsVar = {
 }
 
 const SETTINGS_VARS: SettingsVar[] = [
+  // Dashboard authentication
+  { key: 'AUTH_SECRET', group: 'security', description: 'Auth.js session encryption secret', required: true },
+  { key: 'AUTH_GOOGLE_ID', group: 'security', description: 'Google OAuth client ID', required: true },
+  { key: 'AUTH_GOOGLE_SECRET', group: 'security', description: 'Google OAuth client secret', required: true },
+  { key: 'AUTH_ALLOWED_EMAILS', group: 'security', description: 'Comma-separated Google email allowlist for dashboard access', example: 'you@example.com', required: true },
   // Provider configuration
   { key: 'MAGIC_LINK_PROVIDER', group: 'provider', description: 'Which provider handles magic link / transactional emails', example: 'ses', required: true },
   { key: 'TRANSACTIONAL_PROVIDER', group: 'provider', description: 'Optional provider for transactional sends; falls back to MAGIC_LINK_PROVIDER', example: 'ses', required: false },

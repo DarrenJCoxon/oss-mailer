@@ -2,6 +2,10 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { validateEnv } from './env'
 
 const ALL_VARS = [
+  'AUTH_SECRET',
+  'AUTH_GOOGLE_ID',
+  'AUTH_GOOGLE_SECRET',
+  'AUTH_ALLOWED_EMAILS',
   'MAILER_API_KEY',
   'MAILER_FROM',
   'SES_ACCESS_KEY_ID',
