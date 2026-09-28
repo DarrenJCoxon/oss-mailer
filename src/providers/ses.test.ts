@@ -19,7 +19,7 @@ vi.mock('@aws-sdk/client-ses', () => ({
 }))
 
 // Import AFTER vi.mock so the mock is in place
-import { createSesAdapter } from './ses'
+import { buildRawMime, createSesAdapter } from './ses'
 import { ProviderError } from './errors'
 
 const VALID_CONFIG = {
@@ -225,5 +225,36 @@ describe('validate() — MISSING_ENV (AC-6)', () => {
     } catch (e) {
       expect((e as ProviderError).message).toContain('SES_ACCESS_KEY_ID')
     }
+  })
+})
+
+
+// ─── Attachments ─────────────────────────────────────────────────────────────
+
+describe('send() with attachments', () => {
+  const pdf = { filename: 'INV-0042.pdf', contentType: 'application/pdf', content: Buffer.from('%PDF-1.7').toString('base64') }
+
+  it('sends a raw multipart/mixed message carrying the file', async () => {
+    const adapter = createSesAdapter(VALID_CONFIG)
+    const result = await adapter.send({ ...BASE_REQUEST, replyTo: 'accounts@example.com', attachments: [pdf] })
+
+    expect(result.success).toBe(true)
+    expect(SendRawEmailCommand).toHaveBeenCalledTimes(1)
+    expect(SendEmailCommand).not.toHaveBeenCalled()
+    const raw = new TextDecoder().decode((SendRawEmailCommand as unknown as Mock).mock.calls[0][0].RawMessage.Data)
+    expect(raw).toContain('Content-Type: multipart/mixed; boundary="m1"')
+    expect(raw).toContain('Reply-To: accounts@example.com')
+    expect(raw).toContain('Content-Disposition: attachment; filename="INV-0042.pdf"')
+    expect(raw).toContain(pdf.content)
+    expect(raw.trimEnd().endsWith('--m1--')).toBe(true)
+  })
+})
+
+describe('buildRawMime', () => {
+  it('keeps the plain alternative message when there are no attachments', () => {
+    const raw = buildRawMime({ ...BASE_REQUEST, headers: { 'List-Unsubscribe': '<https://x.test/u>' } })
+    expect(raw).toContain('Content-Type: multipart/alternative; boundary="b1"')
+    expect(raw).not.toContain('multipart/mixed')
+    expect(raw).toContain('List-Unsubscribe-Post: List-Unsubscribe=One-Click')
   })
 })

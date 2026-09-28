@@ -5,6 +5,52 @@ import {
 } from '@aws-sdk/client-ses'
 import type { EmailProvider, ProviderSendRequest, SendResult } from './interface'
 import { ProviderError } from './errors'
+import { attachmentMimeParts } from '../attachments'
+
+/**
+ * A raw MIME message, used when SES's simple API can't express the mail:
+ * List-Unsubscribe headers, or file attachments (multipart/mixed wrapping the
+ * text and HTML alternatives).
+ */
+export function buildRawMime(req: ProviderSendRequest): string {
+  const listUnsubscribe = req.headers?.['List-Unsubscribe']
+  const alternative = [
+    '--b1',
+    'Content-Type: text/plain; charset=UTF-8',
+    '',
+    req.text,
+    '',
+    '--b1',
+    'Content-Type: text/html; charset=UTF-8',
+    '',
+    req.html,
+    '',
+    '--b1--',
+  ]
+  const headers = [
+    `From: ${req.from}`,
+    `To: ${req.to}`,
+    ...(req.replyTo ? [`Reply-To: ${req.replyTo}`] : []),
+    `Subject: ${req.subject}`,
+    'MIME-Version: 1.0',
+    ...(listUnsubscribe ? [`List-Unsubscribe: ${listUnsubscribe}`, 'List-Unsubscribe-Post: List-Unsubscribe=One-Click'] : []),
+  ]
+  if (!req.attachments?.length) {
+    return [...headers, 'Content-Type: multipart/alternative; boundary="b1"', '', ...alternative].join('\r\n')
+  }
+  return [
+    ...headers,
+    'Content-Type: multipart/mixed; boundary="m1"',
+    '',
+    '--m1',
+    'Content-Type: multipart/alternative; boundary="b1"',
+    '',
+    ...alternative,
+    '',
+    ...attachmentMimeParts(req.attachments, 'm1'),
+    '--m1--',
+  ].join('\r\n')
+}
 
 export function createSesAdapter(config?: {
   accessKeyId?: string
@@ -51,31 +97,8 @@ export function createSesAdapter(config?: {
       const sentAt = new Date().toISOString()
       const listUnsubscribe = req.headers?.['List-Unsubscribe']
 
-      if (listUnsubscribe) {
-        const mime = [
-          `From: ${req.from}`,
-          `To: ${req.to}`,
-          ...(req.replyTo ? [`Reply-To: ${req.replyTo}`] : []),
-          `Subject: ${req.subject}`,
-          'MIME-Version: 1.0',
-          `List-Unsubscribe: ${listUnsubscribe}`,
-          'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
-          'Content-Type: multipart/alternative; boundary="b1"',
-          '',
-          '--b1',
-          'Content-Type: text/plain; charset=UTF-8',
-          '',
-          req.text,
-          '',
-          '--b1',
-          'Content-Type: text/html; charset=UTF-8',
-          '',
-          req.html,
-          '',
-          '--b1--',
-        ].join('\r\n')
-
-        const encoded = new TextEncoder().encode(mime)
+      if (listUnsubscribe || req.attachments?.length) {
+        const encoded = new TextEncoder().encode(buildRawMime(req))
         const response = await getClient().send(
           new SendRawEmailCommand({ RawMessage: { Data: encoded } })
         )

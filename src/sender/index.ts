@@ -2,6 +2,7 @@ import type { SendResult } from '../providers/interface'
 import type { createRouter, EmailCategory } from '../router'
 import { renderTemplate } from '../renderer'
 import type { TemplateOverride } from '../template-store'
+import type { MailAttachment } from '../attachments'
 
 export type MailSenderErrorCode = 'TEMPLATE_ERROR' | 'SEND_LOG_ERROR' | 'MISSING_CONFIG'
 
@@ -52,6 +53,7 @@ export type SendRequest = {
   subject: string
   props?: Record<string, unknown>
   replyTo?: string
+  attachments?: MailAttachment[]
 }
 
 const UNSUBSCRIBE_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
@@ -97,6 +99,7 @@ export function createMailSender(
       text,
       ...(req.replyTo ? { replyTo: req.replyTo } : {}),
       ...(headers ? { headers } : {}),
+      ...(req.attachments?.length ? { attachments: req.attachments } : {}),
     })
 
     const durationMs = Date.now() - start

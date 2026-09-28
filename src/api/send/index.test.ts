@@ -619,3 +619,35 @@ describe('createSendHandler — AC-7: update category success path', () => {
     expect(json.jobId).toBe('job-2')
   })
 })
+
+
+// ─── Attachments ─────────────────────────────────────────────────────────────
+
+describe('validateSendRequest — attachments', () => {
+  const pdf = { filename: 'INV-0042.pdf', contentType: 'application/pdf', content: Buffer.from('%PDF-1.7').toString('base64') }
+  const base = { category: 'transactional', to: 'client@example.com', subject: 'Invoice INV-0042' }
+
+  it('passes valid attachments through for transactional mail', () => {
+    const result = validateSendRequest({ ...base, attachments: [pdf] })
+    expect(result).toEqual({ ok: true, data: expect.objectContaining({ attachments: [pdf] }) })
+  })
+
+  it('leaves attachments out when none are sent', () => {
+    const result = validateSendRequest(base)
+    expect(result.ok && 'attachments' in result.data).toBe(false)
+  })
+
+  it('refuses attachments on queued (promotional) mail', () => {
+    const result = validateSendRequest({
+      ...base, category: 'promotional', props: { unsubscribeUrl: 'https://x.test/u' }, attachments: [pdf],
+    })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields.map((f: ValidationFailure) => f.field)).toContain('attachments')
+  })
+
+  it('names the bad attachment field', () => {
+    const result = validateSendRequest({ ...base, attachments: [{ ...pdf, contentType: 'text/html' }] })
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.fields.map((f: ValidationFailure) => f.field)).toContain('attachments[0].contentType')
+  })
+})

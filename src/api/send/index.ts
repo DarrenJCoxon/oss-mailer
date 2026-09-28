@@ -1,6 +1,7 @@
 import type { SendRequest } from '../../sender'
 import type { SendResult } from '../../providers/interface'
 import type { EmailCategory } from '../../router'
+import { validateAttachments, type MailAttachment } from '../../attachments'
 
 const KNOWN_CATEGORIES: ReadonlySet<EmailCategory> = new Set([
   'magic_link',
@@ -67,6 +68,17 @@ export function validateSendRequest(
     })
   }
 
+  let attachments: MailAttachment[] | undefined
+  if (r.attachments !== undefined) {
+    if (!SYNCHRONOUS_CATEGORIES.has(r.category as EmailCategory)) {
+      fields.push({ field: 'attachments', reason: 'are allowed only for magic_link and transactional mail' })
+    } else {
+      const checked = validateAttachments(r.attachments)
+      if (checked.ok) attachments = checked.data
+      else fields.push(...checked.fields)
+    }
+  }
+
   if (fields.length > 0) return { ok: false, fields }
 
   return {
@@ -77,6 +89,7 @@ export function validateSendRequest(
       subject: r.subject as string,
       props: r.props as Record<string, unknown> | undefined,
       replyTo: r.replyTo as string | undefined,
+      ...(attachments ? { attachments } : {}),
     },
   }
 }
