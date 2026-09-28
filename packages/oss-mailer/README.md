@@ -40,6 +40,21 @@ await mailer.sendMail({
 })
 ```
 
+### Send a transactional email with an attachment
+
+Transactional and magic-link mail can carry up to 5 files (PDF, CSV, PNG or JPEG, 5 MB in total). Pass the bytes; the SDK base64-encodes them.
+
+```ts
+await mailer.sendMail({
+  category: 'transactional',
+  to: 'finance@school.org',
+  subject: 'Invoice INV-0042 from Kompass Education',
+  props: { html },
+  replyTo: 'accounts@kompass.education',
+  attachments: [{ filename: 'INV-0042.pdf', contentType: 'application/pdf', content: pdfBytes }],
+})
+```
+
 ### Queue a promotional mailshot
 
 Audience selection, consent and campaign scheduling stay in your application. Send one

@@ -1,5 +1,17 @@
 export type EmailCategory = 'magic_link' | 'transactional' | 'promotional' | 'update'
 
+/**
+ * A file attached to a transactional or magic-link email (for example an
+ * invoice PDF). The mailer accepts PDF, CSV, PNG and JPEG, up to 5 files and
+ * 5 MB in total.
+ */
+export type MailAttachment = {
+  filename: string
+  contentType: 'application/pdf' | 'text/csv' | 'image/png' | 'image/jpeg'
+  /** The file's bytes, or the same bytes already base64-encoded. */
+  content: Uint8Array | string
+}
+
 export type SendMailInput = {
   category: EmailCategory
   to: string
@@ -8,6 +20,19 @@ export type SendMailInput = {
   replyTo?: string
   /** Required by the calling application for promotional and update mail. */
   unsubscribeUrl?: string
+  /** Only for transactional and magic_link mail, which are sent straight away. */
+  attachments?: MailAttachment[]
+}
+
+/** Base64 without Node's Buffer, so the SDK also runs on edge runtimes. */
+function toBase64(content: Uint8Array | string): string {
+  if (typeof content === 'string') return content
+  let binary = ''
+  const chunk = 0x8000
+  for (let i = 0; i < content.length; i += chunk) {
+    binary += String.fromCharCode(...content.subarray(i, i + chunk))
+  }
+  return btoa(binary)
 }
 
 export type SendMailResult =
@@ -96,6 +121,11 @@ export function createMailerClient(config: {
               ? { ...input.props, unsubscribeUrl: input.unsubscribeUrl }
               : input.props,
             replyTo: input.replyTo,
+            attachments: input.attachments?.map((attachment) => ({
+              filename: attachment.filename,
+              contentType: attachment.contentType,
+              content: toBase64(attachment.content),
+            })),
           }),
         })
       } catch (cause) {

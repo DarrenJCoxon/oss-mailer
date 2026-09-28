@@ -1,3 +1,5 @@
+import type { MailAttachment } from '../attachments'
+
 /**
  * Describes the shape of a single email send request passed to a provider.
  */
@@ -11,6 +13,8 @@ export type ProviderSendRequest = {
   replyTo?: string
   /** Optional headers forwarded verbatim to the provider (e.g. List-Unsubscribe). */
   headers?: Record<string, string>
+  /** Optional files attached to the message (transactional mail only). */
+  attachments?: MailAttachment[]
 }
 
 /**

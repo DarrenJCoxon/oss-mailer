@@ -384,3 +384,50 @@ describe('contract parity with validateSendRequest', () => {
     expect(result.ok).toBe(true)
   })
 })
+
+
+// ─── Attachments ─────────────────────────────────────────────────────────────
+
+describe('sendMail attachments', () => {
+  const ok = { success: true, messageId: 'm-1', provider: 'ses', sentAt: '2026-09-28T12:00:00Z' }
+
+  it('sends file bytes as base64 with their name and type', async () => {
+    const fetchFn = makeFetch(200, ok)
+    const client = createMailerClient({ url: VALID_URL, apiKey: VALID_KEY, fetch: fetchFn })
+    const bytes = new TextEncoder().encode('%PDF-1.7 invoice')
+
+    await client.sendMail({
+      category: 'transactional', to: 'client@example.com', subject: 'Invoice INV-0042',
+      attachments: [{ filename: 'INV-0042.pdf', contentType: 'application/pdf', content: bytes }],
+    })
+
+    const body = JSON.parse((fetchFn as unknown as ReturnType<typeof vi.fn>).mock.calls[0][1].body)
+    expect(body.attachments).toEqual([
+      { filename: 'INV-0042.pdf', contentType: 'application/pdf', content: btoa('%PDF-1.7 invoice') },
+    ])
+  })
+
+  it('passes content that is already base64 through unchanged', async () => {
+    const fetchFn = makeFetch(200, ok)
+    const client = createMailerClient({ url: VALID_URL, apiKey: VALID_KEY, fetch: fetchFn })
+    await client.sendMail({
+      category: 'transactional', to: 'client@example.com', subject: 'Report',
+      attachments: [{ filename: 'report.csv', contentType: 'text/csv', content: 'YSxiCjEsMg==' }],
+    })
+    const body = JSON.parse((fetchFn as unknown as ReturnType<typeof vi.fn>).mock.calls[0][1].body)
+    expect(body.attachments[0].content).toBe('YSxiCjEsMg==')
+  })
+
+  it('encodes files larger than one conversion chunk correctly', async () => {
+    const fetchFn = makeFetch(200, ok)
+    const client = createMailerClient({ url: VALID_URL, apiKey: VALID_KEY, fetch: fetchFn })
+    const bytes = new Uint8Array(100_000).map((_, i) => i % 256)
+    await client.sendMail({
+      category: 'transactional', to: 'client@example.com', subject: 'Big',
+      attachments: [{ filename: 'big.pdf', contentType: 'application/pdf', content: bytes }],
+    })
+    const body = JSON.parse((fetchFn as unknown as ReturnType<typeof vi.fn>).mock.calls[0][1].body)
+    const decoded = Uint8Array.from(atob(body.attachments[0].content), (c) => c.charCodeAt(0))
+    expect(decoded).toEqual(bytes)
+  })
+})
